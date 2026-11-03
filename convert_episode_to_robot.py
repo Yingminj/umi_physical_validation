@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Convert a raw dual-gripper episode into Marvin replay trajectories.
+"""Convert a raw dual-gripper episode into dual-arm platform replay trajectories.
 
 The raw episode contains gripper-base pose CSV files in the AprilGrid frame and
 clamp-angle JSON files.  This module synchronizes both hands at 50 Hz, maps
-AprilGrid axes to the Marvin robot-base axes, and writes the
+AprilGrid axes to the dual-arm robot-base axes, and writes the
 ``50hz/session_ee_*`` layout consumed by replay.py.
 The initial dual-hand line is automatically compensated into the robot YZ
 plane before the relative trajectories are written.
@@ -160,7 +160,7 @@ def convert_episode(
     """Convert one raw episode and return its replay trajectory directory.
 
     The raw CSV poses describe the UGripper base. They are transformed to the
-    calibrated UGripper TCP before relative motion is generated. Marvin's
+    calibrated UGripper TCP before relative motion is generated. The platform's
     ``*_tool_site`` frames represent the midpoint of its two finger tips. The
     generated dual-hand motion is always rotated so its initial hand-to-hand
     line lies in the robot YZ plane.

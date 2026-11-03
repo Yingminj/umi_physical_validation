@@ -1,4 +1,4 @@
-<mujoco model="Gento Luna_URDF">
+<mujoco model="robot_b_urdf">
   <compiler angle="radian" />
 
   <option timestep="0.001" integrator="implicitfast"/>
@@ -52,12 +52,12 @@
       <mesh name="right_gripper_left_finger_mesh" file="meshes/omnigripper/Left_Chipper_Base.STL"/>
       <mesh name="right_gripper_right_finger_mesh" file="meshes/omnigripper/Right_Chipper_Base.STL"/>
       <material name="Underpan_Base_link_mat" rgba="1 0 0 1" specular="0" />
-      <material name="Gento_Luna_Leg_J1_Link_mat" rgba="0 1 0 1" specular="0" />
-      <material name="Gento_Luna_Leg_J2_Link_mat" rgba="0 0 1 1" specular="0" />
-      <material name="Gento_Luna_Leg_J3_Link_mat" rgba="1 0 0 1" specular="0" />
-      <material name="Gento_Luna_Leg_J4_Link_mat" rgba="0 1 0 1" specular="0" />
-      <material name="Gento_Luna_Leg_J5_Link_mat" rgba="0 0 1 1" specular="0" />
-      <material name="Gento_Luna_Leg_J6_Link_mat" rgba="1 0 0 1" specular="0" />
+      <material name="Robot_B_Leg_J1_Link_mat" rgba="0 1 0 1" specular="0" />
+      <material name="Robot_B_Leg_J2_Link_mat" rgba="0 0 1 1" specular="0" />
+      <material name="Robot_B_Leg_J3_Link_mat" rgba="1 0 0 1" specular="0" />
+      <material name="Robot_B_Leg_J4_Link_mat" rgba="0 1 0 1" specular="0" />
+      <material name="Robot_B_Leg_J5_Link_mat" rgba="0 0 1 1" specular="0" />
+      <material name="Robot_B_Leg_J6_Link_mat" rgba="1 0 0 1" specular="0" />
       <material name="Arm_R1_Link_mat" rgba="0 1 0 1" specular="0" />
       <material name="Arm_R2_Link_mat" rgba="0 0 1 1" specular="0" />
       <material name="Arm_R3_Link_mat" rgba="1 0 0 1" specular="0" />

@@ -2,7 +2,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ENV_NAME="${MARVIN_ENV_NAME:-marvin-physical-validation}"
+ENV_NAME="${VALIDATION_ENV_NAME:-umi-physical-validation}"
 CONDA_BIN="${CONDA_EXE:-$(command -v conda || true)}"
 
 if [[ -z "${CONDA_BIN}" ]]; then

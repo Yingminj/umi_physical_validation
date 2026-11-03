@@ -19,7 +19,7 @@ if [[ $# -ge 2 ]]; then
 elif [[ $# -eq 1 ]]; then
   shift 1
 fi
-export ROBOT_NAME="${ROBOT_NAME:-marvin_pro}"
+export ROBOT_NAME="${ROBOT_NAME:-robot_a}"
 export PYTHONUNBUFFERED=1
 
 cd "${SCRIPT_DIR}"

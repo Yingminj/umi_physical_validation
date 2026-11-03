@@ -1,7 +1,7 @@
-<mujoco model="gento_luna replay scene">
-  <include file="gento_luna.xml"/>
+<mujoco model="robot_c replay scene">
+  <include file="robot_c.xml"/>
 
-  <statistic center="0 0 1.1" extent="1.6"/>
+  <statistic center="0 0 1.0" extent="1.6"/>
 
   <visual>
     <headlight diffuse="0.6 0.6 0.6" ambient="0.2 0.2 0.2" specular="0.8 0.8 0.8"/>

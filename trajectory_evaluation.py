@@ -33,9 +33,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--viewer", action="store_true")
     parser.add_argument(
         "--robot",
-        choices=("marvin_pro", "gento_luna", "gento_skye"),
-        default=os.environ.get("ROBOT_NAME", "marvin_pro"),
-        help="simulation model (default: marvin_pro)",
+        choices=("robot_a", "robot_b", "robot_c"),
+        default=os.environ.get("ROBOT_NAME", "robot_a"),
+        help="simulation model (default: robot_a)",
     )
     parser.add_argument(
         "--good-score-threshold",

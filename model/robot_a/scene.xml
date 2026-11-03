@@ -1,5 +1,5 @@
-<mujoco model="marvin_pro replay scene">
-  <include file="marvin_pro.xml"/>
+<mujoco model="robot_a replay scene">
+  <include file="robot_a.xml"/>
 
   <statistic center="0 0 1.1" extent="1.4"/>
 

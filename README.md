@@ -1,6 +1,7 @@
-# Marvin Physical Validation
+# 双臂平台物理验证
 
-Marvin Pro 平行夹爪版本的独立 MuJoCo/Mink 轨迹回放与物理验证工具。
+双臂平行夹爪平台的独立 MuJoCo/Mink 轨迹回放与物理验证工具，内置三套通用双臂
+模型（平台 A、平台 B、平台 C）。
 
 本项目基于VISTA: Vision-Grounded and Physics-Validated Adaptation of UMI Data for VLA Training。https://github.com/TeleHuman/umi-vista
 
@@ -10,7 +11,7 @@ Marvin Pro 平行夹爪版本的独立 MuJoCo/Mink 轨迹回放与物理验证�
 - 左右平行夹爪控制
 - UMI `session_ee` 文本轨迹回放
 - 戴盟 UGripper base 轨迹到 TCP 的位姿转换
-- 以 Marvin 双指末端中心作为 IK 控制点
+- 以双指末端中心 tool site 作为 IK 控制点
 - 轨迹连续性、工作空间和碰撞评分
 - MuJoCo 记录机械臂与底座、左右机械臂之间的碰撞
 - MuJoCo 可视化
@@ -22,28 +23,28 @@ Marvin Pro 平行夹爪版本的独立 MuJoCo/Mink 轨迹回放与物理验证�
 使用 Conda 创建独立的 Python 3.10 环境：
 
 ```bash
-cd /home/kernel/code/marvin_physical_validation
+cd /path/to/umi_physical_validation
 ./setup_env.sh
-conda activate marvin-physical-validation
+conda activate umi-physical-validation
 ```
 
 `setup_env.sh` 会创建环境并安装依赖。环境名可通过
-`MARVIN_ENV_NAME` 修改：
+`VALIDATION_ENV_NAME` 修改：
 
 ```bash
-MARVIN_ENV_NAME=my-marvin-env ./setup_env.sh
+VALIDATION_ENV_NAME=my-validation-env ./setup_env.sh
 ```
 
 模型资源已经放在 `model/`，无需额外下载：
 
-- `model/marvin_pro/`：Marvin Pro 回放与物理验证模型
-- `model/gento_luna/gento_luna.xml`：Gento Luna 模型
-- `model/gento_skye/gento_skye.xml`：Gento Skye 模型
+- `model/robot_a/`：平台 A 回放与物理验证模型
+- `model/robot_b/robot_b.xml`：平台 B 模型
+- `model/robot_c/robot_c.xml`：平台 C 模型
 
-三个模型均包含各自的网格资源，不依赖外部 `Marvin_Description` 目录。轨迹
-回放与评分默认使用 Marvin Pro，也可通过 `--robot` 选择 Gento Luna 或
-Gento Skye。两个 Gento 模型均已安装与 Marvin Pro 相同的双指夹爪、开合关节、
-腕部相机和双指末端中心 tool site，可直接参与双臂 IK、夹爪回放和轨迹评分。
+三个模型均包含各自的网格资源，不依赖外部模型描述目录。轨迹回放与评分默认使用
+平台 A，也可通过 `--robot` 选择平台 B 或平台 C。平台 B 与平台 C 均已安装与
+平台 A 相同的双指夹爪、开合关节、腕部相机和双指末端中心 tool site，可直接参与
+双臂 IK、夹爪回放和轨迹评分。
 
 ## 回放轨迹
 
@@ -58,26 +59,26 @@ Gento Skye。两个 Gento 模型均已安装与 Marvin Pro 相同的双指夹爪
 通过 `--robot` 选择仿真模型：
 
 ```bash
-# 可选值：marvin_pro（默认）、gento_luna、gento_skye
-./run_replay.sh /path/to/episode 0 --robot gento_luna
-./run_replay.sh /path/to/episode 0 --robot gento_skye
+# 可选值：robot_a（默认）、robot_b、robot_c
+./run_replay.sh /path/to/episode 0 --robot robot_b
+./run_replay.sh /path/to/episode 0 --robot robot_c
 ```
 
 也可以直接运行：
 
 ```bash
 export SCORE_FOLDER_PATH=/path/to/episode
-python3 replay.py 0 --robot gento_luna
+python3 replay.py 0 --robot robot_b
 ```
 
-`replay.py` 会根据 `--robot` 选择独立的机器人入口，不会让 Gento 模型经过
-Marvin Pro 的适配模块：
+`replay.py` 会根据 `--robot` 选择独立的机器人入口，不会让平台 B/C 模型经过平台 A
+的适配模块：
 
 | `--robot` | Mink 仿真入口 | 真实机器人接口 |
 | --- | --- | --- |
-| `marvin_pro` | `robot/marvin_pro_mink.py` | `robot/marvin_pro_interface.py` |
-| `gento_luna` | `robot/gento_luna_mink.py` | `robot/gento_luna_interface.py` |
-| `gento_skye` | `robot/gento_skye_mink.py` | `robot/gento_skye_interface.py` |
+| `robot_a` | `robot/robot_a_mink.py` | `robot/robot_a_interface.py` |
+| `robot_b` | `robot/robot_b_mink.py` | `robot/robot_b_interface.py` |
+| `robot_c` | `robot/robot_c_mink.py` | `robot/robot_c_interface.py` |
 
 三个 Mink 入口分别固定绑定自己的模型。它们只复用
 `robot/dual_arm_mink.py` 中与具体机器人无关的双臂 IK/FK、夹爪、碰撞检查及
@@ -89,23 +90,23 @@ MuJoCo 状态管理逻辑。目前三个 `*_interface.py` 均为真实硬件保�
 ## 目录结构
 
 ```text
-marvin_physical_validation/
+umi_physical_validation/
 ├── configs/
-│   ├── marvin_pro.json
-│   ├── gento_luna.json
-│   └── gento_skye.json
+│   ├── robot_a.json
+│   ├── robot_b.json
+│   └── robot_c.json
 ├── model/
-│   ├── marvin_pro/
-│   ├── gento_luna/
-│   └── gento_skye/
+│   ├── robot_a/
+│   ├── robot_b/
+│   └── robot_c/
 ├── robot/
 │   ├── dual_arm_mink.py
-│   ├── marvin_pro_mink.py
-│   ├── marvin_pro_interface.py
-│   ├── gento_luna_mink.py
-│   ├── gento_luna_interface.py
-│   ├── gento_skye_mink.py
-│   ├── gento_skye_interface.py
+│   ├── robot_a_mink.py
+│   ├── robot_a_interface.py
+│   ├── robot_b_mink.py
+│   ├── robot_b_interface.py
+│   ├── robot_c_mink.py
+│   ├── robot_c_interface.py
 │   └── robot_joint_config.py
 ├── utils/
 ├── replay.py
@@ -142,19 +143,19 @@ T_base_tcp =
 
 也就是 TCP 相对戴盟 base 沿局部 `+Z` 方向偏移
 `0.129708200693 m`，两者坐标轴方向一致。该矩阵直接定义在`convert_episode_to_robot.py` 
-得到戴盟 TCP 位姿后，转换器再执行 AprilGrid → Marvin robot-base
+得到戴盟 TCP 位姿后，转换器再执行 AprilGrid → 机器人 base
 坐标变换，并生成以首帧为零点的相对 TCP 轨迹。MuJoCo 模型中的
-`left_tool_site` 和 `right_tool_site` 位于 Marvin 两个夹指末端的中心，
+`left_tool_site` 和 `right_tool_site` 位于左右两个夹指末端的中心，
 因此回放时的完整控制链为：
 
 ```text
 戴盟 gripper base 位姿
   → 戴盟 TCP 位姿
-  → Marvin 双指末端中心目标位姿
+  → 平台双指末端中心目标位姿
   → Mink IK
 ```
 
-Marvin 双指末端中心相对其夹爪 base 的位置约为：
+模型中的双指末端中心相对其夹爪 base 的位置约为：
 
 ```text
 [0.000795, -0.002959, 0.162710] m
@@ -164,7 +165,7 @@ Marvin 双指末端中心相对其夹爪 base 的位置约为：
 躲避不可避免的碰撞牺牲连续性和 workspace 分数。碰撞会被 MuJoCo 记录并计入
 `collision` 分数，批量筛选时可按连续性、workspace、collision 以及总分（建议
 总分大于 60）接受轨迹，其余轨迹删除。需要研究避碰方案时，才显式构造
-`MarvinProMink(avoid_collisions=True)`；该模式保持 10 mm 间距，但可能牺牲
+`RobotAMink(avoid_collisions=True)`；该模式保持 10 mm 间距，但可能牺牲
 原始 TCP 跟踪，且不包含桌面约束。
 
 底座碰撞代理使用半径 `50 mm`、高度 `1.3 m` 的中心胶囊体；它只用于 MuJoCo
@@ -179,7 +180,7 @@ Marvin 双指末端中心相对其夹爪 base 的位置约为：
 python trajectory_evaluation.py \
   /home/kernel/Desktop/data/unified_episode/episode_20260818_0002 \
   --viewer \
-  --robot gento_skye
+  --robot robot_c
 ```
 
 也可以传入包含多个 `episode_*` 子目录的父目录进行批量评分：
@@ -215,7 +216,7 @@ python convert_episode_to_robot.py /path/to/episode --overwrite
 episode 根目录或 `view_files` 目录；若只需要 MuJoCo 窗口，可在调用前设置：
 
 ```bash
-export MARVIN_CAMERA_VIEW=0
+export REPLAY_CAMERA_VIEW=0
 ```
 
 每路视频固定以 `640×360` 显示，并使用 Lanczos 高质量降采样与轻度锐化。

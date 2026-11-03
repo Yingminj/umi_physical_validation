@@ -1,4 +1,4 @@
-"""Marvin Pro simulation adapter."""
+"""Dual-arm platform A simulation adapter."""
 
 from .dual_arm_mink import (
     DualArmMink,
@@ -12,9 +12,9 @@ from .dual_arm_mink import (
 )
 
 
-class MarvinProMink(DualArmMink):
-    """Bind the dual-arm Mink implementation to the Marvin Pro model."""
+class RobotAMink(DualArmMink):
+    """Bind the dual-arm Mink implementation to the platform A model."""
 
     def __init__(self, *args, **kwargs):
-        kwargs["robot_name"] = "marvin_pro"
+        kwargs["robot_name"] = "robot_a"
         super().__init__(*args, **kwargs)

@@ -13,7 +13,7 @@ import utils.self_math as smath
 import mink
 
 _HERE = Path(__file__).parent.parent
-SUPPORTED_ROBOTS = ("marvin_pro", "gento_luna", "gento_skye")
+SUPPORTED_ROBOTS = ("robot_a", "robot_b", "robot_c")
 _MODEL_XML = {
     name: _HERE / "model" / name / "scene.xml"
     for name in SUPPORTED_ROBOTS
@@ -97,21 +97,21 @@ _MAPPING = [
 ]
 
 _HOME_ARM_QPOS = {
-    "marvin_pro": np.array(
+    "robot_a": np.array(
         [
             1.7, -1.1, -1.1, -2.0, -0.37, 0.13, 0.55,
             -1.7, -1.1, 1.1, -2.0, 0.37, 0.13, -0.55,
         ],
         dtype=float,
     ),
-    "gento_luna": np.array(
+    "robot_b": np.array(
         [
             1.2, -0.8, -0.8, -1.4, -0.3, 0.1, 0.4,
             -1.2, -0.8, 0.8, -1.4, 0.3, 0.1, -0.4,
         ],
         dtype=float,
     ),
-    "gento_skye": np.array(
+    "robot_c": np.array(
         [
             1.2, -0.8, -0.8, -1.4, -0.3, 0.1, 0.4,
             -1.2, -0.8, 0.8, -1.4, 0.3, 0.1, -0.4,
@@ -120,7 +120,7 @@ _HOME_ARM_QPOS = {
     ),
 }
 _EXTRA_HOME_QPOS = {
-    "gento_skye": {"waist_joint_1_prismatic": 0.86},
+    "robot_c": {"waist_joint_1_prismatic": 0.86},
 }
 
 class DualArmMink:
@@ -129,15 +129,15 @@ class DualArmMink:
     def __init__(
         self,
         avoid_collisions: bool = False,
-        robot_name: str = "marvin_pro",
+        robot_name: str = "robot_a",
     ):
         robot_name = str(robot_name).strip().lower()
         if robot_name not in _MODEL_XML:
             choices = ", ".join(SUPPORTED_ROBOTS)
             raise ValueError(f"unsupported robot {robot_name!r}; choose one of: {choices}")
-        if avoid_collisions and robot_name != "marvin_pro":
+        if avoid_collisions and robot_name != "robot_a":
             raise ValueError(
-                "collision-constrained IK is currently calibrated only for marvin_pro"
+                "collision-constrained IK is currently calibrated only for robot_a"
             )
         self.robot_name = robot_name
         model = mujoco.MjModel.from_xml_path(_MODEL_XML[robot_name].as_posix())
@@ -234,10 +234,10 @@ class DualArmMink:
         self._viewer_images_logged = False
         self.solver = "daqp"
 
-        # Marvin Pro provides a named keyframe. The imported Gento models do
-        # not, so initialize their shared 14 arm joints by name and leave the
+        # The default platform provides a named keyframe. The other two models
+        # do not, so initialize their shared 14 arm joints by name and leave the
         # leg/base/waist/head joints at their XML defaults.
-        if self.robot_name == "marvin_pro":
+        if self.robot_name == "robot_a":
             self.configuration.update_from_keyframe("home")
         else:
             for joint_name, value in zip(
@@ -915,9 +915,9 @@ class DualArmMink:
             pass
 
     def check_collision_pairs(self):
-        """Score non-floor contacts reported by the Marvin MuJoCo model.
+        """Score non-floor contacts reported by the dual-arm MuJoCo model.
 
-        Adjacent-link contacts are excluded in ``marvin_pro.xml``.  Therefore
+        Adjacent-link contacts are excluded in ``robot_a.xml``.  Therefore
         remaining robot-to-robot contacts represent relevant self-collisions.
         """
         with self._mj_lock:

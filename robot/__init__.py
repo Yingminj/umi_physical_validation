@@ -1,1 +1,1 @@
-"""Robot adapters for Marvin Pro, Gento Luna, and Gento Skye."""
+"""Robot adapters for the bundled dual-arm platforms."""

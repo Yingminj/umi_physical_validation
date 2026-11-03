@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Marvin Pro UMI trajectory replay and scoring.
+# UMI trajectory replay and scoring for dual-arm platforms.
 
 import argparse
 import time, math, os, sys
@@ -11,7 +11,7 @@ from typing import Dict, Any, List, Optional, Tuple
 import numpy as np
 import multiprocessing as mp
 
-SUPPORTED_ROBOTS = ("marvin_pro", "gento_luna", "gento_skye")
+SUPPORTED_ROBOTS = ("robot_a", "robot_b", "robot_c")
 
 
 def _resolve_robot_name() -> str:
@@ -20,14 +20,14 @@ def _resolve_robot_name() -> str:
     parser.add_argument(
         "--robot",
         choices=SUPPORTED_ROBOTS,
-        default=os.environ.get("ROBOT_NAME", "marvin_pro"),
+        default=os.environ.get("ROBOT_NAME", "robot_a"),
     )
     args, _ = parser.parse_known_args()
     return str(args.robot)
 
 
 _CAMERA_VIEW_REQUESTED = (
-    os.environ.get("MARVIN_CAMERA_VIEW", "1").strip().lower()
+    os.environ.get("REPLAY_CAMERA_VIEW", "1").strip().lower()
     not in {"0", "false", "no", "off"}
 )
 
@@ -57,15 +57,15 @@ from utils.dual_camera_viewer import DualCameraViewer, resolve_episode_videos
 
 ROBOT = _resolve_robot_name()
 os.environ["ROBOT_NAME"] = ROBOT
-if ROBOT == "marvin_pro":
-    from robot.marvin_pro_mink import MarvinProMink as RbtKin
-    import robot.marvin_pro_interface as RbtCtrl
-elif ROBOT == "gento_luna":
-    from robot.gento_luna_mink import GentoLunaMink as RbtKin
-    import robot.gento_luna_interface as RbtCtrl
-elif ROBOT == "gento_skye":
-    from robot.gento_skye_mink import GentoSkyeMink as RbtKin
-    import robot.gento_skye_interface as RbtCtrl
+if ROBOT == "robot_a":
+    from robot.robot_a_mink import RobotAMink as RbtKin
+    import robot.robot_a_interface as RbtCtrl
+elif ROBOT == "robot_b":
+    from robot.robot_b_mink import RobotBMink as RbtKin
+    import robot.robot_b_interface as RbtCtrl
+elif ROBOT == "robot_c":
+    from robot.robot_c_mink import RobotCMink as RbtKin
+    import robot.robot_c_interface as RbtCtrl
 else:  # Guard against programmatic modification outside argparse.
     raise ValueError(f"Unsupported robot: {ROBOT}")
 
@@ -1289,12 +1289,12 @@ def replay(trajectory_index: int = 1,
                             )
                             if initial_control_point_vector_m is not None:
                                 _info(
-                                    f"[PREALIGN] Adjusting Marvin left-right vector "
+                                    f"[PREALIGN] Adjusting the platform left-right vector "
                                     f"{separation.tolist()} -> {alignment_vector.tolist()} m"
                                 )
                             else:
                                 _info(
-                                    f"[PREALIGN] Adjusting Marvin control-point distance "
+                                    f"[PREALIGN] Adjusting the platform control-point distance "
                                     f"{home_distance:.4f} -> {initial_tcp_distance_m:.4f} m"
                                 )
                         else:
@@ -2263,7 +2263,7 @@ if __name__ == "__main__":
         "--robot",
         choices=SUPPORTED_ROBOTS,
         default=ROBOT,
-        help="simulation model (default: marvin_pro)",
+        help="simulation model (default: robot_a)",
     )
     args = parser.parse_args()
 

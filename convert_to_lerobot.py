@@ -3,7 +3,7 @@
 
 The converter is intentionally self-contained.  It follows the AprilGrid to
 robot-world and dual-hand plane-compensation math used by
-``marvin_physical_validation`` without importing or modifying that project.
+``umi_physical_validation`` without importing or modifying that project.
 
 Output state/action layout (14 float32 values):
     left xyz, left roll/pitch/yaw, left gripper,
@@ -54,7 +54,7 @@ T_GRIPPER_BASE_TCP = np.array(
     dtype=np.float64,
 )
 
-# AprilGrid axes -> robot-world axes, copied from the validated Marvin logic:
+# AprilGrid axes -> robot-world axes, copied from the validated platform logic:
 # robot_x = grid_z, robot_y = -grid_x, robot_z = -grid_y.
 R_APRILGRID_TO_ROBOT = np.array(
     [[0.0, 0.0, 1.0], [-1.0, 0.0, 0.0], [0.0, -1.0, 0.0]],

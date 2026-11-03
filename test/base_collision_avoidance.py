@@ -6,8 +6,8 @@ import unittest
 import mujoco
 import numpy as np
 
-from robot.marvin_pro_mink import (
-    MarvinProMink,
+from robot.robot_a_mink import (
+    RobotAMink,
     _ARM_MAX_VELOCITIES_RAD_S,
     _COLLISION_DETECTION_DISTANCE_M,
     _COLLISION_MIN_DISTANCE_M,
@@ -18,7 +18,7 @@ from robot.marvin_pro_mink import (
 )
 
 
-def minimum_base_distance(robot: MarvinProMink) -> float:
+def minimum_base_distance(robot: RobotAMink) -> float:
     return min(
         float(
             mujoco.mj_geomDistance(
@@ -34,7 +34,7 @@ def minimum_base_distance(robot: MarvinProMink) -> float:
     )
 
 
-def minimum_inter_arm_distance(robot: MarvinProMink) -> float:
+def minimum_inter_arm_distance(robot: RobotAMink) -> float:
     return min(
         float(
             mujoco.mj_geomDistance(
@@ -52,7 +52,7 @@ def minimum_inter_arm_distance(robot: MarvinProMink) -> float:
 
 class CollisionAvoidanceTest(unittest.TestCase):
     def test_limits_match_replay_rate_and_robot_speed_configuration(self):
-        robot = MarvinProMink(avoid_collisions=True)
+        robot = RobotAMink(avoid_collisions=True)
         self.assertAlmostEqual(_IK_DT_SEC, 0.02)
         self.assertEqual(_IK_SUBSTEPS, 4)
         self.assertAlmostEqual(_HAND_POSITION_COST, 100.0)
@@ -75,7 +75,7 @@ class CollisionAvoidanceTest(unittest.TestCase):
         )
 
     def test_feasible_motion_keeps_full_workspace_and_collision_scores(self):
-        robot = MarvinProMink(avoid_collisions=True)
+        robot = RobotAMink(avoid_collisions=True)
         target = robot.solve_fk()
         for hand_target in target:
             hand_target[:3] += [0.02, 0.0, 0.0]
@@ -87,7 +87,7 @@ class CollisionAvoidanceTest(unittest.TestCase):
         self.assertEqual(robot.check_out_workspace()["score"], 100.0)
 
     def test_ik_substeps_do_not_modify_gripper_commands(self):
-        robot = MarvinProMink(avoid_collisions=True)
+        robot = RobotAMink(avoid_collisions=True)
         target = robot.solve_fk()
         robot._set_gripper_side_locked("left", 25.0)
         robot._set_gripper_side_locked("right", 75.0)
@@ -98,7 +98,7 @@ class CollisionAvoidanceTest(unittest.TestCase):
         self.assertAlmostEqual(robot._get_gripper_pct_locked("right"), 75.0)
 
     def test_targets_inside_base_do_not_create_penetration(self):
-        robot = MarvinProMink(avoid_collisions=True)
+        robot = RobotAMink(avoid_collisions=True)
         target = robot.solve_fk()
         target[0][:3] = [0.08, 0.13, 0.85]
         target[1][:3] = [0.08, -0.13, 0.85]
@@ -114,7 +114,7 @@ class CollisionAvoidanceTest(unittest.TestCase):
         )
 
     def test_crossed_hand_targets_keep_both_arms_ten_mm_apart(self):
-        robot = MarvinProMink(avoid_collisions=True)
+        robot = RobotAMink(avoid_collisions=True)
         target = robot.solve_fk()
         left_position = target[0][:3].copy()
         target[0][:3] = target[1][:3]
