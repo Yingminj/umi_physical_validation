@@ -1,0 +1,732 @@
+<mujoco model="Gento_Skye_URDF">
+  <compiler angle="radian" />
+  <option timestep="0.001" integrator="implicitfast"/>
+  <default>
+    <default class="ccs_m6">
+      <joint damping="2" armature="0.1" frictionloss="0.2"/>
+      <position inheritrange="1"/>
+      <default class="visual">
+        <geom group="2" type="mesh" contype="0" conaffinity="0"/>
+      </default>
+      <default class="collision">
+        <geom type="mesh" group="3" mass="0" density="0" contype="1" conaffinity="1"/>
+      </default>
+    </default>
+  </default>
+  <asset>
+    <mesh name="Gento_Skye_meshes_base_link" file="meshes/base_link.STL" />
+    <mesh name="Gento_Skye_meshes_base_link_collision" file="meshes/base_link_collision.STL" />
+    <mesh name="Gento_Skye_meshes_left_front_wheel_Link_1" file="meshes/left_front wheel_Link_1.STL" />
+    <mesh name="Gento_Skye_meshes_left_front_wheel_Link_2" file="meshes/left_front wheel_Link_2.STL" />
+    <mesh name="Gento_Skye_meshes_right_front_wheel_Link_1" file="meshes/right_front wheel_Link_1.STL" />
+    <mesh name="Gento_Skye_meshes_right_front_wheel_Link_2" file="meshes/right_front wheel_Link_2.STL" />
+    <mesh name="Gento_Skye_meshes_left_back_wheel_Link_1" file="meshes/left_back wheel_Link_1.STL" />
+    <mesh name="Gento_Skye_meshes_left_back_wheel_Link_2" file="meshes/left_back wheel_Link_2.STL" />
+    <mesh name="Gento_Skye_meshes_right_back_wheel_Link_1" file="meshes/right_back wheel_Link_1.STL" />
+    <mesh name="Gento_Skye_meshes_right_back_wheel_Link_2" file="meshes/right_back wheel_Link_2.STL" />
+    <mesh name="Gento_Skye_meshes_waist_Link_1_prismatic" file="meshes/waist_Link_1_prismatic.STL" />
+    <mesh name="Gento_Skye_meshes_waist_Link_2" file="meshes/waist_Link_2.STL" />
+    <mesh name="Gento_Skye_meshes_waist_Link_3" file="meshes/waist_Link_3.STL" />
+    <mesh name="Gento_Skye_meshes_Arm_R1_Link" file="meshes/Arm_R1_Link.STL" />
+    <mesh name="Gento_Skye_meshes_Arm_R2_Link" file="meshes/Arm_R2_Link.STL" />
+    <mesh name="Gento_Skye_meshes_Arm_R3_Link" file="meshes/Arm_R3_Link.STL" />
+    <mesh name="Gento_Skye_meshes_Arm_R4_Link" file="meshes/Arm_R4_Link.STL" />
+    <mesh name="Gento_Skye_meshes_Arm_R5_Link" file="meshes/Arm_R5_Link.STL" />
+    <mesh name="Gento_Skye_meshes_Arm_R6_Link" file="meshes/Arm_R6_Link.STL" />
+    <mesh name="Gento_Skye_meshes_Arm_R7_Link" file="meshes/Arm_R7_Link.STL" />
+    <mesh name="Gento_Skye_meshes_Arm_L1_Link" file="meshes/Arm_L1_Link.STL" />
+    <mesh name="Gento_Skye_meshes_Arm_L2_Link" file="meshes/Arm_L2_Link.STL" />
+    <mesh name="Gento_Skye_meshes_Arm_L3_Link" file="meshes/Arm_L3_Link.STL" />
+    <mesh name="Gento_Skye_meshes_Arm_L4_Link" file="meshes/Arm_L4_Link.STL" />
+    <mesh name="Gento_Skye_meshes_Arm_L5_Link" file="meshes/Arm_L5_Link.STL" />
+    <mesh name="Gento_Skye_meshes_Arm_L6_Link" file="meshes/Arm_L6_Link.STL" />
+    <mesh name="Gento_Skye_meshes_Arm_L7_Link" file="meshes/Arm_L7_Link.STL" />
+    <mesh name="Gento_Skye_meshes_head_Link_1" file="meshes/head_Link_1.STL" />
+    <mesh name="Gento_Skye_meshes_head_Link_2" file="meshes/head_Link_2.STL" />
+    <mesh name="left_gripper_base_mesh" file="meshes/omnigripper/omnigripper_straight.STL"/>
+    <mesh name="left_gripper_left_finger_mesh" file="meshes/omnigripper/Left_Chipper_Base.STL"/>
+    <mesh name="left_gripper_right_finger_mesh" file="meshes/omnigripper/Right_Chipper_Base.STL"/>
+    <mesh name="right_gripper_base_mesh" file="meshes/omnigripper/omnigripper_straight.STL"/>
+    <mesh name="right_gripper_left_finger_mesh" file="meshes/omnigripper/Left_Chipper_Base.STL"/>
+    <mesh name="right_gripper_right_finger_mesh" file="meshes/omnigripper/Right_Chipper_Base.STL"/>
+    <material name="base_link_mat" rgba="0.5922 0.6196 0.6471 1" specular="0" />
+    <material name="left_front_wheel_Link_1_mat" rgba="0.898 0.9137 0.9255 1" specular="0" />
+    <material name="left_front_wheel_Link_2_mat" rgba="0.8902 0.8902 0.9137 1" specular="0" />
+    <material name="right_front_wheel_Link_1_mat" rgba="0.898 0.9137 0.9255 1" specular="0" />
+    <material name="right_front_wheel_Link_2_mat" rgba="0.8863 0.8863 0.9098 1" specular="0" />
+    <material name="left_back_wheel_Link_1_mat" rgba="0.898 0.9137 0.9255 1" specular="0" />
+    <material name="left_back_wheel_Link_2_mat" rgba="0.8863 0.8863 0.9098 1" specular="0" />
+    <material name="right_back_wheel_Link_1_mat" rgba="0.898 0.9137 0.9255 1" specular="0" />
+    <material name="right_back_wheel_Link_2_mat" rgba="0.8902 0.8902 0.9137 1" specular="0" />
+    <material name="waist_Link_1_prismatic_mat" rgba="0.898 0.9137 0.9255 1" specular="0" />
+    <material name="waist_Link_2_mat" rgba="1 1 1 1" specular="0" />
+    <material name="waist_Link_3_mat" rgba="0.7922 0.8196 0.9294 1" specular="0" />
+    <material name="arm_right_Link_1_mat" rgba="0.7922 0.8196 0.9294 1" specular="0" />
+    <material name="arm_right_Link_2_mat" rgba="0.7922 0.8196 0.9294 1" specular="0" />
+    <material name="arm_right_Link_3_mat" rgba="0.7922 0.8196 0.9294 1" specular="0" />
+    <material name="arm_right_Link_4_mat" rgba="0.7922 0.8196 0.9294 1" specular="0" />
+    <material name="arm_right_Link_5_mat" rgba="0.7922 0.8196 0.9294 1" specular="0" />
+    <material name="arm_right_Link_6_mat" rgba="0.7922 0.8196 0.9294 1" specular="0" />
+    <material name="arm_right_Link_7_mat" rgba="0.7922 0.8196 0.9294 1" specular="0" />
+    <material name="arm_left_Link_1_mat" rgba="0.7922 0.8196 0.9294 1" specular="0" />
+    <material name="arm_left_Link_2_mat" rgba="0.7922 0.8196 0.9294 1" specular="0" />
+    <material name="arm_left_Link_3_mat" rgba="0.7922 0.8196 0.9294 1" specular="0" />
+    <material name="arm_left_Link_4_mat" rgba="0.7922 0.8196 0.9294 1" specular="0" />
+    <material name="arm_left_Link_5_mat" rgba="0.7922 0.8196 0.9294 1" specular="0" />
+    <material name="arm_left_Link_6_mat" rgba="0.7922 0.8196 0.9294 1" specular="0" />
+    <material name="arm_left_Link_7_mat" rgba="0.7922 0.8196 0.9294 1" specular="0" />
+    <material name="head_Link_1_mat" rgba="0.898 0.9176 0.9255 1" specular="0" />
+    <material name="head_Link_2_mat" rgba="1 1 1 1" specular="0" />
+    <material name="gripper_base_mat" rgba="0.7922 0.8196 0.9294 1" specular="0"/>
+    <material name="gripper_finger_mat" rgba="0.6039 0.6039 0.6039 1" specular="0"/>
+  </asset>
+
+  <contact>
+    <exclude body1="arm right_Link_7" body2="right_gripper_base" />
+    <exclude body1="arm right_Link_7" body2="right_gripper_left_finger" />
+    <exclude body1="arm right_Link_7" body2="right_gripper_right_finger" />
+    <exclude body1="right_gripper_base" body2="right_gripper_left_finger" />
+    <exclude body1="right_gripper_base" body2="right_gripper_right_finger" />
+    <exclude body1="right_gripper_left_finger" body2="right_gripper_right_finger" />
+    <exclude body1="arm left_Link_7" body2="left_gripper_base" />
+    <exclude body1="arm left_Link_7" body2="left_gripper_left_finger" />
+    <exclude body1="arm left_Link_7" body2="left_gripper_right_finger" />
+    <exclude body1="left_gripper_base" body2="left_gripper_left_finger" />
+    <exclude body1="left_gripper_base" body2="left_gripper_right_finger" />
+    <exclude body1="left_gripper_left_finger" body2="left_gripper_right_finger" />
+    <exclude body1="base_link" body2="left_front wheel_Link_1" />
+    <exclude body1="base_link" body2="left_front wheel_Link_2" />
+    <exclude body1="base_link" body2="right_front wheel_Link_1" />
+    <exclude body1="base_link" body2="right_front wheel_Link_2" />
+    <exclude body1="base_link" body2="left_back wheel_Link_1" />
+    <exclude body1="base_link" body2="left_back wheel_Link_2" />
+    <exclude body1="base_link" body2="right_back wheel_Link_1" />
+    <exclude body1="base_link" body2="right_back wheel_Link_2" />
+    <exclude body1="base_link" body2="waist_Link_1_prismatic" />
+    <exclude body1="base_link" body2="waist_Link_2" />
+    <exclude body1="base_link" body2="waist_Link_3" />
+    <exclude body1="base_link" body2="arm right_Link_1" />
+    <exclude body1="base_link" body2="arm right_Link_2" />
+    <!-- <exclude body1="base_link" body2="arm right_Link_3" />
+    <exclude body1="base_link" body2="arm right_Link_4" />
+    <exclude body1="base_link" body2="arm right_Link_5" />
+    <exclude body1="base_link" body2="arm right_Link_6" />
+    <exclude body1="base_link" body2="arm right_Link_7" /> -->
+    <exclude body1="base_link" body2="arm left_Link_1" />
+    <exclude body1="base_link" body2="arm left_Link_2" />
+    <!-- <exclude body1="base_link" body2="arm left_Link_3" />
+    <exclude body1="base_link" body2="arm left_Link_4" />
+    <exclude body1="base_link" body2="arm left_Link_5" />
+    <exclude body1="base_link" body2="arm left_Link_6" />
+    <exclude body1="base_link" body2="arm left_Link_7" /> -->
+    <exclude body1="base_link" body2="head_Link_1" />
+    <exclude body1="base_link" body2="head_Link_2" />
+    <exclude body1="left_front wheel_Link_1" body2="left_front wheel_Link_2" />
+    <exclude body1="left_front wheel_Link_1" body2="right_front wheel_Link_1" />
+    <exclude body1="left_front wheel_Link_1" body2="right_front wheel_Link_2" />
+    <exclude body1="left_front wheel_Link_1" body2="left_back wheel_Link_1" />
+    <exclude body1="left_front wheel_Link_1" body2="left_back wheel_Link_2" />
+    <exclude body1="left_front wheel_Link_1" body2="right_back wheel_Link_1" />
+    <exclude body1="left_front wheel_Link_1" body2="right_back wheel_Link_2" />
+    <exclude body1="left_front wheel_Link_1" body2="waist_Link_1_prismatic" />
+    <exclude body1="left_front wheel_Link_1" body2="waist_Link_2" />
+    <exclude body1="left_front wheel_Link_1" body2="waist_Link_3" />
+    <exclude body1="left_front wheel_Link_1" body2="arm right_Link_1" />
+    <exclude body1="left_front wheel_Link_1" body2="arm right_Link_2" />
+    <exclude body1="left_front wheel_Link_1" body2="arm right_Link_3" />
+    <exclude body1="left_front wheel_Link_1" body2="arm right_Link_4" />
+    <exclude body1="left_front wheel_Link_1" body2="arm right_Link_5" />
+    <exclude body1="left_front wheel_Link_1" body2="arm right_Link_6" />
+    <exclude body1="left_front wheel_Link_1" body2="arm right_Link_7" />
+    <exclude body1="left_front wheel_Link_1" body2="arm left_Link_1" />
+    <exclude body1="left_front wheel_Link_1" body2="arm left_Link_2" />
+    <exclude body1="left_front wheel_Link_1" body2="arm left_Link_3" />
+    <exclude body1="left_front wheel_Link_1" body2="arm left_Link_4" />
+    <exclude body1="left_front wheel_Link_1" body2="arm left_Link_5" />
+    <exclude body1="left_front wheel_Link_1" body2="arm left_Link_6" />
+    <exclude body1="left_front wheel_Link_1" body2="arm left_Link_7" />
+    <exclude body1="left_front wheel_Link_1" body2="head_Link_1" />
+    <exclude body1="left_front wheel_Link_1" body2="head_Link_2" />
+    <exclude body1="left_front wheel_Link_2" body2="right_front wheel_Link_1" />
+    <exclude body1="left_front wheel_Link_2" body2="right_front wheel_Link_2" />
+    <exclude body1="left_front wheel_Link_2" body2="left_back wheel_Link_1" />
+    <exclude body1="left_front wheel_Link_2" body2="left_back wheel_Link_2" />
+    <exclude body1="left_front wheel_Link_2" body2="right_back wheel_Link_1" />
+    <exclude body1="left_front wheel_Link_2" body2="right_back wheel_Link_2" />
+    <exclude body1="left_front wheel_Link_2" body2="waist_Link_1_prismatic" />
+    <exclude body1="left_front wheel_Link_2" body2="waist_Link_2" />
+    <exclude body1="left_front wheel_Link_2" body2="waist_Link_3" />
+    <exclude body1="left_front wheel_Link_2" body2="arm right_Link_1" />
+    <exclude body1="left_front wheel_Link_2" body2="arm right_Link_2" />
+    <exclude body1="left_front wheel_Link_2" body2="arm right_Link_3" />
+    <exclude body1="left_front wheel_Link_2" body2="arm right_Link_4" />
+    <exclude body1="left_front wheel_Link_2" body2="arm right_Link_5" />
+    <exclude body1="left_front wheel_Link_2" body2="arm right_Link_6" />
+    <exclude body1="left_front wheel_Link_2" body2="arm right_Link_7" />
+    <exclude body1="left_front wheel_Link_2" body2="arm left_Link_1" />
+    <exclude body1="left_front wheel_Link_2" body2="arm left_Link_2" />
+    <exclude body1="left_front wheel_Link_2" body2="arm left_Link_3" />
+    <exclude body1="left_front wheel_Link_2" body2="arm left_Link_4" />
+    <exclude body1="left_front wheel_Link_2" body2="arm left_Link_5" />
+    <exclude body1="left_front wheel_Link_2" body2="arm left_Link_6" />
+    <exclude body1="left_front wheel_Link_2" body2="arm left_Link_7" />
+    <exclude body1="left_front wheel_Link_2" body2="head_Link_1" />
+    <exclude body1="left_front wheel_Link_2" body2="head_Link_2" />
+    <exclude body1="right_front wheel_Link_1" body2="right_front wheel_Link_2" />
+    <exclude body1="right_front wheel_Link_1" body2="left_back wheel_Link_1" />
+    <exclude body1="right_front wheel_Link_1" body2="left_back wheel_Link_2" />
+    <exclude body1="right_front wheel_Link_1" body2="right_back wheel_Link_1" />
+    <exclude body1="right_front wheel_Link_1" body2="right_back wheel_Link_2" />
+    <exclude body1="right_front wheel_Link_1" body2="waist_Link_1_prismatic" />
+    <exclude body1="right_front wheel_Link_1" body2="waist_Link_2" />
+    <exclude body1="right_front wheel_Link_1" body2="waist_Link_3" />
+    <exclude body1="right_front wheel_Link_1" body2="arm right_Link_1" />
+    <exclude body1="right_front wheel_Link_1" body2="arm right_Link_2" />
+    <exclude body1="right_front wheel_Link_1" body2="arm right_Link_3" />
+    <exclude body1="right_front wheel_Link_1" body2="arm right_Link_4" />
+    <exclude body1="right_front wheel_Link_1" body2="arm right_Link_5" />
+    <exclude body1="right_front wheel_Link_1" body2="arm right_Link_6" />
+    <exclude body1="right_front wheel_Link_1" body2="arm right_Link_7" />
+    <exclude body1="right_front wheel_Link_1" body2="arm left_Link_1" />
+    <exclude body1="right_front wheel_Link_1" body2="arm left_Link_2" />
+    <exclude body1="right_front wheel_Link_1" body2="arm left_Link_3" />
+    <exclude body1="right_front wheel_Link_1" body2="arm left_Link_4" />
+    <exclude body1="right_front wheel_Link_1" body2="arm left_Link_5" />
+    <exclude body1="right_front wheel_Link_1" body2="arm left_Link_6" />
+    <exclude body1="right_front wheel_Link_1" body2="arm left_Link_7" />
+    <exclude body1="right_front wheel_Link_1" body2="head_Link_1" />
+    <exclude body1="right_front wheel_Link_1" body2="head_Link_2" />
+    <exclude body1="right_front wheel_Link_2" body2="left_back wheel_Link_1" />
+    <exclude body1="right_front wheel_Link_2" body2="left_back wheel_Link_2" />
+    <exclude body1="right_front wheel_Link_2" body2="right_back wheel_Link_1" />
+    <exclude body1="right_front wheel_Link_2" body2="right_back wheel_Link_2" />
+    <exclude body1="right_front wheel_Link_2" body2="waist_Link_1_prismatic" />
+    <exclude body1="right_front wheel_Link_2" body2="waist_Link_2" />
+    <exclude body1="right_front wheel_Link_2" body2="waist_Link_3" />
+    <exclude body1="right_front wheel_Link_2" body2="arm right_Link_1" />
+    <exclude body1="right_front wheel_Link_2" body2="arm right_Link_2" />
+    <exclude body1="right_front wheel_Link_2" body2="arm right_Link_3" />
+    <exclude body1="right_front wheel_Link_2" body2="arm right_Link_4" />
+    <exclude body1="right_front wheel_Link_2" body2="arm right_Link_5" />
+    <exclude body1="right_front wheel_Link_2" body2="arm right_Link_6" />
+    <exclude body1="right_front wheel_Link_2" body2="arm right_Link_7" />
+    <exclude body1="right_front wheel_Link_2" body2="arm left_Link_1" />
+    <exclude body1="right_front wheel_Link_2" body2="arm left_Link_2" />
+    <exclude body1="right_front wheel_Link_2" body2="arm left_Link_3" />
+    <exclude body1="right_front wheel_Link_2" body2="arm left_Link_4" />
+    <exclude body1="right_front wheel_Link_2" body2="arm left_Link_5" />
+    <exclude body1="right_front wheel_Link_2" body2="arm left_Link_6" />
+    <exclude body1="right_front wheel_Link_2" body2="arm left_Link_7" />
+    <exclude body1="right_front wheel_Link_2" body2="head_Link_1" />
+    <exclude body1="right_front wheel_Link_2" body2="head_Link_2" />
+    <exclude body1="left_back wheel_Link_1" body2="left_back wheel_Link_2" />
+    <exclude body1="left_back wheel_Link_1" body2="right_back wheel_Link_1" />
+    <exclude body1="left_back wheel_Link_1" body2="right_back wheel_Link_2" />
+    <exclude body1="left_back wheel_Link_1" body2="waist_Link_1_prismatic" />
+    <exclude body1="left_back wheel_Link_1" body2="waist_Link_2" />
+    <exclude body1="left_back wheel_Link_1" body2="waist_Link_3" />
+    <exclude body1="left_back wheel_Link_1" body2="arm right_Link_1" />
+    <exclude body1="left_back wheel_Link_1" body2="arm right_Link_2" />
+    <exclude body1="left_back wheel_Link_1" body2="arm right_Link_3" />
+    <exclude body1="left_back wheel_Link_1" body2="arm right_Link_4" />
+    <exclude body1="left_back wheel_Link_1" body2="arm right_Link_5" />
+    <exclude body1="left_back wheel_Link_1" body2="arm right_Link_6" />
+    <exclude body1="left_back wheel_Link_1" body2="arm right_Link_7" />
+    <exclude body1="left_back wheel_Link_1" body2="arm left_Link_1" />
+    <exclude body1="left_back wheel_Link_1" body2="arm left_Link_2" />
+    <exclude body1="left_back wheel_Link_1" body2="arm left_Link_3" />
+    <exclude body1="left_back wheel_Link_1" body2="arm left_Link_4" />
+    <exclude body1="left_back wheel_Link_1" body2="arm left_Link_5" />
+    <exclude body1="left_back wheel_Link_1" body2="arm left_Link_6" />
+    <exclude body1="left_back wheel_Link_1" body2="arm left_Link_7" />
+    <exclude body1="left_back wheel_Link_1" body2="head_Link_1" />
+    <exclude body1="left_back wheel_Link_1" body2="head_Link_2" />
+    <exclude body1="left_back wheel_Link_2" body2="right_back wheel_Link_1" />
+    <exclude body1="left_back wheel_Link_2" body2="right_back wheel_Link_2" />
+    <exclude body1="left_back wheel_Link_2" body2="waist_Link_1_prismatic" />
+    <exclude body1="left_back wheel_Link_2" body2="waist_Link_2" />
+    <exclude body1="left_back wheel_Link_2" body2="waist_Link_3" />
+    <exclude body1="left_back wheel_Link_2" body2="arm right_Link_1" />
+    <exclude body1="left_back wheel_Link_2" body2="arm right_Link_2" />
+    <exclude body1="left_back wheel_Link_2" body2="arm right_Link_3" />
+    <exclude body1="left_back wheel_Link_2" body2="arm right_Link_4" />
+    <exclude body1="left_back wheel_Link_2" body2="arm right_Link_5" />
+    <exclude body1="left_back wheel_Link_2" body2="arm right_Link_6" />
+    <exclude body1="left_back wheel_Link_2" body2="arm right_Link_7" />
+    <exclude body1="left_back wheel_Link_2" body2="arm left_Link_1" />
+    <exclude body1="left_back wheel_Link_2" body2="arm left_Link_2" />
+    <exclude body1="left_back wheel_Link_2" body2="arm left_Link_3" />
+    <exclude body1="left_back wheel_Link_2" body2="arm left_Link_4" />
+    <exclude body1="left_back wheel_Link_2" body2="arm left_Link_5" />
+    <exclude body1="left_back wheel_Link_2" body2="arm left_Link_6" />
+    <exclude body1="left_back wheel_Link_2" body2="arm left_Link_7" />
+    <exclude body1="left_back wheel_Link_2" body2="head_Link_1" />
+    <exclude body1="left_back wheel_Link_2" body2="head_Link_2" />
+    <exclude body1="right_back wheel_Link_1" body2="right_back wheel_Link_2" />
+    <exclude body1="right_back wheel_Link_1" body2="waist_Link_1_prismatic" />
+    <exclude body1="right_back wheel_Link_1" body2="waist_Link_2" />
+    <exclude body1="right_back wheel_Link_1" body2="waist_Link_3" />
+    <exclude body1="right_back wheel_Link_1" body2="arm right_Link_1" />
+    <exclude body1="right_back wheel_Link_1" body2="arm right_Link_2" />
+    <exclude body1="right_back wheel_Link_1" body2="arm right_Link_3" />
+    <exclude body1="right_back wheel_Link_1" body2="arm right_Link_4" />
+    <exclude body1="right_back wheel_Link_1" body2="arm right_Link_5" />
+    <exclude body1="right_back wheel_Link_1" body2="arm right_Link_6" />
+    <exclude body1="right_back wheel_Link_1" body2="arm right_Link_7" />
+    <exclude body1="right_back wheel_Link_1" body2="arm left_Link_1" />
+    <exclude body1="right_back wheel_Link_1" body2="arm left_Link_2" />
+    <exclude body1="right_back wheel_Link_1" body2="arm left_Link_3" />
+    <exclude body1="right_back wheel_Link_1" body2="arm left_Link_4" />
+    <exclude body1="right_back wheel_Link_1" body2="arm left_Link_5" />
+    <exclude body1="right_back wheel_Link_1" body2="arm left_Link_6" />
+    <exclude body1="right_back wheel_Link_1" body2="arm left_Link_7" />
+    <exclude body1="right_back wheel_Link_1" body2="head_Link_1" />
+    <exclude body1="right_back wheel_Link_1" body2="head_Link_2" />
+    <exclude body1="right_back wheel_Link_2" body2="waist_Link_1_prismatic" />
+    <exclude body1="right_back wheel_Link_2" body2="waist_Link_2" />
+    <exclude body1="right_back wheel_Link_2" body2="waist_Link_3" />
+    <exclude body1="right_back wheel_Link_2" body2="arm right_Link_1" />
+    <exclude body1="right_back wheel_Link_2" body2="arm right_Link_2" />
+    <exclude body1="right_back wheel_Link_2" body2="arm right_Link_3" />
+    <exclude body1="right_back wheel_Link_2" body2="arm right_Link_4" />
+    <exclude body1="right_back wheel_Link_2" body2="arm right_Link_5" />
+    <exclude body1="right_back wheel_Link_2" body2="arm right_Link_6" />
+    <exclude body1="right_back wheel_Link_2" body2="arm right_Link_7" />
+    <exclude body1="right_back wheel_Link_2" body2="arm left_Link_1" />
+    <exclude body1="right_back wheel_Link_2" body2="arm left_Link_2" />
+    <exclude body1="right_back wheel_Link_2" body2="arm left_Link_3" />
+    <exclude body1="right_back wheel_Link_2" body2="arm left_Link_4" />
+    <exclude body1="right_back wheel_Link_2" body2="arm left_Link_5" />
+    <exclude body1="right_back wheel_Link_2" body2="arm left_Link_6" />
+    <exclude body1="right_back wheel_Link_2" body2="arm left_Link_7" />
+    <exclude body1="right_back wheel_Link_2" body2="head_Link_1" />
+    <exclude body1="right_back wheel_Link_2" body2="head_Link_2" />
+    <exclude body1="waist_Link_1_prismatic" body2="waist_Link_2" />
+    <exclude body1="waist_Link_1_prismatic" body2="waist_Link_3" />
+    <exclude body1="waist_Link_1_prismatic" body2="arm right_Link_1" />
+    <exclude body1="waist_Link_1_prismatic" body2="arm right_Link_2" />
+    <exclude body1="waist_Link_1_prismatic" body2="arm right_Link_3" />
+    <exclude body1="waist_Link_1_prismatic" body2="arm right_Link_4" />
+    <exclude body1="waist_Link_1_prismatic" body2="arm right_Link_5" />
+    <exclude body1="waist_Link_1_prismatic" body2="arm right_Link_6" />
+    <exclude body1="waist_Link_1_prismatic" body2="arm right_Link_7" />
+    <exclude body1="waist_Link_1_prismatic" body2="arm left_Link_1" />
+    <exclude body1="waist_Link_1_prismatic" body2="arm left_Link_2" />
+    <exclude body1="waist_Link_1_prismatic" body2="arm left_Link_3" />
+    <exclude body1="waist_Link_1_prismatic" body2="arm left_Link_4" />
+    <exclude body1="waist_Link_1_prismatic" body2="arm left_Link_5" />
+    <exclude body1="waist_Link_1_prismatic" body2="arm left_Link_6" />
+    <exclude body1="waist_Link_1_prismatic" body2="arm left_Link_7" />
+    <exclude body1="waist_Link_1_prismatic" body2="head_Link_1" />
+    <exclude body1="waist_Link_1_prismatic" body2="head_Link_2" />
+    <exclude body1="waist_Link_2" body2="waist_Link_3" />
+    <exclude body1="waist_Link_2" body2="arm right_Link_1" />
+    <exclude body1="waist_Link_2" body2="arm right_Link_2" />
+    <exclude body1="waist_Link_2" body2="arm right_Link_3" />
+    <exclude body1="waist_Link_2" body2="arm right_Link_4" />
+    <exclude body1="waist_Link_2" body2="arm right_Link_5" />
+    <exclude body1="waist_Link_2" body2="arm right_Link_6" />
+    <exclude body1="waist_Link_2" body2="arm right_Link_7" />
+    <exclude body1="waist_Link_2" body2="arm left_Link_1" />
+    <exclude body1="waist_Link_2" body2="arm left_Link_2" />
+    <exclude body1="waist_Link_2" body2="arm left_Link_3" />
+    <exclude body1="waist_Link_2" body2="arm left_Link_4" />
+    <exclude body1="waist_Link_2" body2="arm left_Link_5" />
+    <exclude body1="waist_Link_2" body2="arm left_Link_6" />
+    <exclude body1="waist_Link_2" body2="arm left_Link_7" />
+    <exclude body1="waist_Link_2" body2="head_Link_1" />
+    <exclude body1="waist_Link_2" body2="head_Link_2" />
+    <exclude body1="waist_Link_3" body2="arm right_Link_1" />
+    <exclude body1="waist_Link_3" body2="arm right_Link_2" />
+    <exclude body1="waist_Link_3" body2="arm right_Link_3" />
+    <exclude body1="waist_Link_3" body2="arm right_Link_4" />
+    <exclude body1="waist_Link_3" body2="arm right_Link_5" />
+    <exclude body1="waist_Link_3" body2="arm right_Link_6" />
+    <exclude body1="waist_Link_3" body2="arm right_Link_7" />
+    <exclude body1="waist_Link_3" body2="arm left_Link_1" />
+    <exclude body1="waist_Link_3" body2="arm left_Link_2" />
+    <exclude body1="waist_Link_3" body2="arm left_Link_3" />
+    <exclude body1="waist_Link_3" body2="arm left_Link_4" />
+    <exclude body1="waist_Link_3" body2="arm left_Link_5" />
+    <exclude body1="waist_Link_3" body2="arm left_Link_6" />
+    <exclude body1="waist_Link_3" body2="arm left_Link_7" />
+    <exclude body1="waist_Link_3" body2="head_Link_1" />
+    <exclude body1="waist_Link_3" body2="head_Link_2" />
+    <exclude body1="arm right_Link_1" body2="arm right_Link_2" />
+    <exclude body1="arm right_Link_1" body2="arm right_Link_3" />
+    <exclude body1="arm right_Link_1" body2="arm right_Link_4" />
+    <exclude body1="arm right_Link_1" body2="arm right_Link_5" />
+    <exclude body1="arm right_Link_1" body2="arm right_Link_6" />
+    <exclude body1="arm right_Link_1" body2="arm right_Link_7" />
+    <exclude body1="arm right_Link_1" body2="arm left_Link_1" />
+    <exclude body1="arm right_Link_1" body2="arm left_Link_2" />
+    <exclude body1="arm right_Link_1" body2="arm left_Link_3" />
+    <exclude body1="arm right_Link_1" body2="arm left_Link_4" />
+    <exclude body1="arm right_Link_1" body2="arm left_Link_5" />
+    <exclude body1="arm right_Link_1" body2="arm left_Link_6" />
+    <exclude body1="arm right_Link_1" body2="arm left_Link_7" />
+    <exclude body1="arm right_Link_1" body2="head_Link_1" />
+    <exclude body1="arm right_Link_1" body2="head_Link_2" />
+    <exclude body1="arm right_Link_2" body2="arm right_Link_3" />
+    <exclude body1="arm right_Link_2" body2="arm right_Link_4" />
+    <exclude body1="arm right_Link_2" body2="arm right_Link_5" />
+    <exclude body1="arm right_Link_2" body2="arm right_Link_6" />
+    <exclude body1="arm right_Link_2" body2="arm right_Link_7" />
+    <exclude body1="arm right_Link_2" body2="arm left_Link_1" />
+    <exclude body1="arm right_Link_2" body2="arm left_Link_2" />
+    <exclude body1="arm right_Link_2" body2="arm left_Link_3" />
+    <exclude body1="arm right_Link_2" body2="arm left_Link_4" />
+    <exclude body1="arm right_Link_2" body2="arm left_Link_5" />
+    <exclude body1="arm right_Link_2" body2="arm left_Link_6" />
+    <exclude body1="arm right_Link_2" body2="arm left_Link_7" />
+    <exclude body1="arm right_Link_2" body2="head_Link_1" />
+    <exclude body1="arm right_Link_2" body2="head_Link_2" />
+    <exclude body1="arm right_Link_3" body2="arm right_Link_4" />
+    <exclude body1="arm right_Link_3" body2="arm right_Link_5" />
+    <exclude body1="arm right_Link_3" body2="arm right_Link_6" />
+    <exclude body1="arm right_Link_3" body2="arm right_Link_7" />
+    <exclude body1="arm right_Link_3" body2="arm left_Link_1" />
+    <exclude body1="arm right_Link_3" body2="arm left_Link_2" />
+    <exclude body1="arm right_Link_3" body2="arm left_Link_3" />
+    <exclude body1="arm right_Link_3" body2="arm left_Link_4" />
+    <exclude body1="arm right_Link_3" body2="arm left_Link_5" />
+    <exclude body1="arm right_Link_3" body2="arm left_Link_6" />
+    <exclude body1="arm right_Link_3" body2="arm left_Link_7" />
+    <exclude body1="arm right_Link_3" body2="head_Link_1" />
+    <exclude body1="arm right_Link_3" body2="head_Link_2" />
+    <exclude body1="arm right_Link_4" body2="arm right_Link_5" />
+    <exclude body1="arm right_Link_4" body2="arm right_Link_6" />
+    <exclude body1="arm right_Link_4" body2="arm right_Link_7" />
+    <exclude body1="arm right_Link_4" body2="arm left_Link_1" />
+    <exclude body1="arm right_Link_4" body2="arm left_Link_2" />
+    <exclude body1="arm right_Link_4" body2="arm left_Link_3" />
+    <exclude body1="arm right_Link_4" body2="arm left_Link_4" />
+    <exclude body1="arm right_Link_4" body2="arm left_Link_5" />
+    <exclude body1="arm right_Link_4" body2="arm left_Link_6" />
+    <exclude body1="arm right_Link_4" body2="arm left_Link_7" />
+    <exclude body1="arm right_Link_4" body2="head_Link_1" />
+    <exclude body1="arm right_Link_4" body2="head_Link_2" />
+    <exclude body1="arm right_Link_5" body2="arm right_Link_6" />
+    <exclude body1="arm right_Link_5" body2="arm right_Link_7" />
+    <exclude body1="arm right_Link_5" body2="arm left_Link_1" />
+    <exclude body1="arm right_Link_5" body2="arm left_Link_2" />
+    <exclude body1="arm right_Link_5" body2="arm left_Link_3" />
+    <exclude body1="arm right_Link_5" body2="arm left_Link_4" />
+    <exclude body1="arm right_Link_5" body2="arm left_Link_5" />
+    <exclude body1="arm right_Link_5" body2="arm left_Link_6" />
+    <exclude body1="arm right_Link_5" body2="arm left_Link_7" />
+    <exclude body1="arm right_Link_5" body2="head_Link_1" />
+    <exclude body1="arm right_Link_5" body2="head_Link_2" />
+    <exclude body1="arm right_Link_6" body2="arm right_Link_7" />
+    <exclude body1="arm right_Link_6" body2="arm left_Link_1" />
+    <exclude body1="arm right_Link_6" body2="arm left_Link_2" />
+    <exclude body1="arm right_Link_6" body2="arm left_Link_3" />
+    <exclude body1="arm right_Link_6" body2="arm left_Link_4" />
+    <exclude body1="arm right_Link_6" body2="arm left_Link_5" />
+    <exclude body1="arm right_Link_6" body2="arm left_Link_6" />
+    <exclude body1="arm right_Link_6" body2="arm left_Link_7" />
+    <exclude body1="arm right_Link_6" body2="head_Link_1" />
+    <exclude body1="arm right_Link_6" body2="head_Link_2" />
+    <exclude body1="arm right_Link_7" body2="arm left_Link_1" />
+    <exclude body1="arm right_Link_7" body2="arm left_Link_2" />
+    <exclude body1="arm right_Link_7" body2="arm left_Link_3" />
+    <exclude body1="arm right_Link_7" body2="arm left_Link_4" />
+    <exclude body1="arm right_Link_7" body2="arm left_Link_5" />
+    <exclude body1="arm right_Link_7" body2="arm left_Link_6" />
+    <exclude body1="arm right_Link_7" body2="arm left_Link_7" />
+    <exclude body1="arm right_Link_7" body2="head_Link_1" />
+    <exclude body1="arm right_Link_7" body2="head_Link_2" />
+    <exclude body1="arm left_Link_1" body2="arm left_Link_2" />
+    <exclude body1="arm left_Link_1" body2="arm left_Link_3" />
+    <exclude body1="arm left_Link_1" body2="arm left_Link_4" />
+    <exclude body1="arm left_Link_1" body2="arm left_Link_5" />
+    <exclude body1="arm left_Link_1" body2="arm left_Link_6" />
+    <exclude body1="arm left_Link_1" body2="arm left_Link_7" />
+    <exclude body1="arm left_Link_1" body2="head_Link_1" />
+    <exclude body1="arm left_Link_1" body2="head_Link_2" />
+    <exclude body1="arm left_Link_2" body2="arm left_Link_3" />
+    <exclude body1="arm left_Link_2" body2="arm left_Link_4" />
+    <exclude body1="arm left_Link_2" body2="arm left_Link_5" />
+    <exclude body1="arm left_Link_2" body2="arm left_Link_6" />
+    <exclude body1="arm left_Link_2" body2="arm left_Link_7" />
+    <exclude body1="arm left_Link_2" body2="head_Link_1" />
+    <exclude body1="arm left_Link_2" body2="head_Link_2" />
+    <exclude body1="arm left_Link_3" body2="arm left_Link_4" />
+    <exclude body1="arm left_Link_3" body2="arm left_Link_5" />
+    <exclude body1="arm left_Link_3" body2="arm left_Link_6" />
+    <exclude body1="arm left_Link_3" body2="arm left_Link_7" />
+    <exclude body1="arm left_Link_3" body2="head_Link_1" />
+    <exclude body1="arm left_Link_3" body2="head_Link_2" />
+    <exclude body1="arm left_Link_4" body2="arm left_Link_5" />
+    <exclude body1="arm left_Link_4" body2="arm left_Link_6" />
+    <exclude body1="arm left_Link_4" body2="arm left_Link_7" />
+    <exclude body1="arm left_Link_4" body2="head_Link_1" />
+    <exclude body1="arm left_Link_4" body2="head_Link_2" />
+    <exclude body1="arm left_Link_5" body2="arm left_Link_6" />
+    <exclude body1="arm left_Link_5" body2="arm left_Link_7" />
+    <exclude body1="arm left_Link_5" body2="head_Link_1" />
+    <exclude body1="arm left_Link_5" body2="head_Link_2" />
+    <exclude body1="arm left_Link_6" body2="arm left_Link_7" />
+    <exclude body1="arm left_Link_6" body2="head_Link_1" />
+    <exclude body1="arm left_Link_6" body2="head_Link_2" />
+    <exclude body1="arm left_Link_7" body2="head_Link_1" />
+    <exclude body1="arm left_Link_7" body2="head_Link_2" />
+    <exclude body1="head_Link_1" body2="head_Link_2" />
+  </contact>
+
+  <equality>
+    <joint joint1="left_gripper_right_finger_joint" joint2="left_gripper_left_finger_joint" polycoef="0 1 0 0 0"/>
+    <joint joint1="right_gripper_right_finger_joint" joint2="right_gripper_left_finger_joint" polycoef="0 1 0 0 0"/>
+  </equality>
+
+  <worldbody>
+    <body name="base_link" pos="0 0 0">
+      <inertial pos="-0.05101 -0.0000483 0.46368" mass="140.55" fullinertia="28.78517564 28.33210441 4.86318095 0.01493498 -1.47161285 -0.0115855"/>
+      <geom class="visual" pos="0 0 0" material="base_link_mat" mesh="Gento_Skye_meshes_base_link" />
+      <geom class="collision" type="mesh" pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" mesh="Gento_Skye_meshes_base_link_collision" />
+      <body name="left_front wheel_Link_1" pos="0.23 0.218 0.07">
+        <joint name="left_front wheel_joint_1" type="hinge" axis="0 0 1" limited="true" range="-2.97 2.97" actuatorfrclimited="true" actuatorfrcrange="-194 194" damping="2" frictionloss="0.2"/>
+        <inertial pos="0.0000472 -0.024805 0.07456" mass="0.62533" fullinertia="0.00162503 0.00128395 0.00067321 0.00000073 0.00000166 0.00056317"/>
+        <geom class="visual" pos="0 0 0" material="left_front_wheel_Link_1_mat" mesh="Gento_Skye_meshes_left_front_wheel_Link_1" />
+        <geom class="collision" pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" mesh="Gento_Skye_meshes_left_front_wheel_Link_1" />
+        <body name="left_front wheel_Link_2" pos="0 0 0" quat="0.7071055 -0.7071081 0 0">
+          <joint name="left_front wheel_joint_2" type="hinge" axis="0 0 1" limited="true" range="-2.97 2.97" actuatorfrclimited="true" actuatorfrcrange="-194 194" damping="2" frictionloss="0.2"/>
+          <inertial pos="-0.0000025 -0.0000111 0.0005082" mass="1.2504" fullinertia="0.00253623 0.00253644 0.00383541 0.00000001 -0.00000002 0.00000043"/>
+          <geom class="visual" pos="0 0 0" material="left_front_wheel_Link_2_mat" mesh="Gento_Skye_meshes_left_front_wheel_Link_2" />
+          <geom class="collision" pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" mesh="Gento_Skye_meshes_left_front_wheel_Link_2" />
+        </body>
+      </body>
+      <body name="right_front wheel_Link_1" pos="0.23 -0.218 0.07">
+        <joint name="right_front wheel_joint_1" type="hinge" axis="0 0 1" limited="true" range="-2.97 2.97" actuatorfrclimited="true" actuatorfrcrange="-194 194" damping="2" frictionloss="0.2"/>
+        <inertial pos="-0.0000472 0.024805 0.07456" mass="0.62533" fullinertia="0.00162503 0.00128395 0.00067321 0.00000073 -0.00000165 -0.00056317"/>
+        <geom class="visual" pos="0 0 0" material="right_front_wheel_Link_1_mat" mesh="Gento_Skye_meshes_right_front_wheel_Link_1" />
+        <geom class="collision" pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" mesh="Gento_Skye_meshes_right_front_wheel_Link_1" />
+        <body name="right_front wheel_Link_2" pos="0 0 0" quat="0.7071055 -0.7071081 0 0">
+          <joint name="right_front wheel_joint_2" type="hinge" axis="0 0 1" limited="true" range="-2.97 2.97" actuatorfrclimited="true" actuatorfrcrange="-194 194" damping="2" frictionloss="0.2"/>
+          <inertial pos="0.0000025 -0.0000111 -0.0005082" mass="1.2504" fullinertia="0.00253623 0.00253644 0.00383541 -0.00000001 -0.00000002 -0.00000043"/>
+          <geom class="visual" pos="0 0 0" material="right_front_wheel_Link_2_mat" mesh="Gento_Skye_meshes_right_front_wheel_Link_2" />
+          <geom class="collision" pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" mesh="Gento_Skye_meshes_right_front_wheel_Link_2" />
+        </body>
+      </body>
+      <body name="left_back wheel_Link_1" pos="-0.23 0.218 0.07">
+        <joint name="left_back wheel_joint_1" type="hinge" axis="0 0 1" limited="true" range="-2.97 2.97" actuatorfrclimited="true" actuatorfrcrange="-194 194" damping="2" frictionloss="0.2"/>
+        <inertial pos="0.0000472 -0.024805 0.07456" mass="0.62533" fullinertia="0.00162503 0.00128395 0.00067321 0.00000073 0.00000166 0.00056317"/>
+        <geom class="visual" pos="0 0 0" material="left_back_wheel_Link_1_mat" mesh="Gento_Skye_meshes_left_back_wheel_Link_1" />
+        <geom class="collision" pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" mesh="Gento_Skye_meshes_left_back_wheel_Link_1" />
+        <body name="left_back wheel_Link_2" pos="0 0 0" quat="0.7071055 -0.7071081 0 0">
+          <joint name="left_back wheel_joint_2" type="hinge" axis="0 0 1" limited="true" range="-2.97 2.97" actuatorfrclimited="true" actuatorfrcrange="-194 194" damping="2" frictionloss="0.2"/>
+          <inertial pos="-0.0000025 -0.0000111 0.0005082" mass="1.2504" fullinertia="0.00253623 0.00253644 0.00383541 0.00000001 -0.00000002 0.00000043"/>
+          <geom class="visual" pos="0 0 0" material="left_back_wheel_Link_2_mat" mesh="Gento_Skye_meshes_left_back_wheel_Link_2" />
+          <geom class="collision" pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" mesh="Gento_Skye_meshes_left_back_wheel_Link_2" />
+        </body>
+      </body>
+      <body name="right_back wheel_Link_1" pos="-0.23 -0.218 0.07">
+        <joint name="right_back wheel_joint_1" type="hinge" axis="0 0 1" limited="true" range="-2.97 2.97" actuatorfrclimited="true" actuatorfrcrange="-194 194" damping="2" frictionloss="0.2"/>
+        <inertial pos="-0.0000472 0.024805 0.07456" mass="0.62533" fullinertia="0.00162503 0.00128395 0.00067321 0.00000073 -0.00000165 -0.00056317"/>
+        <geom class="visual" pos="0 0 0" material="right_back_wheel_Link_1_mat" mesh="Gento_Skye_meshes_right_back_wheel_Link_1" />
+        <geom class="collision" pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" mesh="Gento_Skye_meshes_right_back_wheel_Link_1" />
+        <body name="right_back wheel_Link_2" pos="0 0 0" quat="0.7071055 -0.7071081 0 0">
+          <joint name="right_back wheel_joint_2" type="hinge" axis="0 0 1" limited="true" range="-2.97 2.97" actuatorfrclimited="true" actuatorfrcrange="-194 194" damping="2" frictionloss="0.2"/>
+          <inertial pos="0.0000025 -0.0000111 -0.0005082" mass="1.2504" fullinertia="0.00253623 0.00253644 0.00383541 -0.00000001 -0.00000002 -0.00000043"/>
+          <geom class="visual" pos="0 0 0" material="right_back_wheel_Link_2_mat" mesh="Gento_Skye_meshes_right_back_wheel_Link_2" />
+          <geom class="collision" pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" mesh="Gento_Skye_meshes_right_back_wheel_Link_2" />
+        </body>
+      </body>
+      <body name="waist_Link_1_prismatic" pos="0.18048 0 0.36213">
+        <joint name="waist_joint_1_prismatic" type="slide" axis="0 0 1" limited="true" range="0 0.86" actuatorfrclimited="true" actuatorfrcrange="-3000 3000" damping="3" frictionloss="0.3"/>
+        <inertial pos="-0.043051 -0.0009903 -0.0031441" mass="6.0547" fullinertia="0.013887 0.041848 0.03664 0.00025825 -0.0014717 0.000018808"/>
+        <geom class="visual" pos="0 0 0" material="waist_Link_1_prismatic_mat" mesh="Gento_Skye_meshes_waist_Link_1_prismatic" />
+        <geom class="collision" pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" mesh="Gento_Skye_meshes_waist_Link_1_prismatic" />
+        <body name="waist_Link_2" pos="0 0 0" quat="0.7071055 0.7071081 0 0">
+          <joint name="waist_joint_2" type="hinge" axis="0 0 1" limited="true" range="-1.5708 0" actuatorfrclimited="true" actuatorfrcrange="-194 194" damping="3" frictionloss="0.3"/>
+          <inertial pos="0.0026414 0.02235 -0.0012175" mass="5.3538" fullinertia="0.04609582 0.04430159 0.02076499 0.00043467 0.00001785 0.00014534"/>
+          <geom class="visual" pos="0 0 0" material="waist_Link_2_mat" mesh="Gento_Skye_meshes_waist_Link_2" />
+          <geom class="collision" pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" mesh="Gento_Skye_meshes_waist_Link_2" />
+          <body name="waist_Link_3" pos="0 0 0" quat="0.7071055 -0.7071081 0 0">
+            <joint name="waist_joint_3" type="hinge" axis="0 0 1" limited="true" range="-0.4363 0.4363" actuatorfrclimited="true" actuatorfrcrange="-194 194" damping="3" frictionloss="0.3"/>
+            <inertial pos="0.0041391 0.0000914 0.3466443" mass="17.4767" fullinertia="0.36345315 0.33755628 0.16205022 -0.00022069 0.00340584 -0.00018698"/>
+            <geom class="visual" pos="0 0 0" material="waist_Link_3_mat" mesh="Gento_Skye_meshes_waist_Link_3" />
+            <geom class="collision" pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" mesh="Gento_Skye_meshes_waist_Link_3" />
+            <body name="arm right_Link_1" pos="0 -0.2305 0.4335" quat="0.7071055 0.7071081 0 0">
+              <joint name="Arm_R1_Joint" type="hinge" axis="0 0 1" limited="true" range="-3.1067 3.1067" actuatorfrclimited="true" actuatorfrcrange="-45 45" damping="3" frictionloss="0.3"/>
+              <inertial pos="0.0000012 -0.0016087 -0.027255" mass="2.25" fullinertia="0.0052802 0.0061121 0.002573 -0.00000011 0 -0.00009865"/>
+              <geom class="visual" pos="0 0 0" material="arm_right_Link_1_mat" mesh="Gento_Skye_meshes_Arm_R1_Link" />
+              <geom class="collision" pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" mesh="Gento_Skye_meshes_Arm_R1_Link" />
+              <body name="arm right_Link_2" pos="0 0 0" quat="0.7071055 0.7071081 0 0">
+                <joint name="Arm_R2_Joint" type="hinge" axis="0 0 1" limited="true" range="-2.0944 2.0944" actuatorfrclimited="true" actuatorfrcrange="-45 45" damping="3" frictionloss="0.3"/>
+                <inertial pos="0.0000013 0.046956 -0.001486" mass="1.85" fullinertia="0.0087872 0.0038695 0.0073 -0.00000007 0.0000001 0.00012909"/>
+                <geom class="visual" pos="0 0 0" material="arm_right_Link_2_mat" mesh="Gento_Skye_meshes_Arm_R2_Link" />
+                <geom class="collision" pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" mesh="Gento_Skye_meshes_Arm_R2_Link" />
+                <body name="arm right_Link_3" pos="0 0.287 0" quat="0.7071055 -0.7071081 0 0">
+                  <joint name="Arm_R3_Joint" type="hinge" axis="0 0 1" limited="true" range="-3.1067 3.1067" actuatorfrclimited="true" actuatorfrcrange="-40 40" damping="2.5" frictionloss="0.25"/>
+                  <inertial pos="0.0058493 0.0009025 -0.05684" mass="1.75" fullinertia="0.0057967 0.0062724 0.0018218 0.00001918 0.00066746 0.00008977"/>
+                  <geom class="visual" pos="0 0 0" material="arm_right_Link_3_mat" mesh="Gento_Skye_meshes_Arm_R3_Link" />
+                  <geom class="collision" pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" mesh="Gento_Skye_meshes_Arm_R3_Link" />
+                  <body name="arm right_Link_4" pos="0.018 0 0" quat="0.7071055 0.7071081 0 0">
+                    <joint name="Arm_R4_Joint" type="hinge" axis="0 0 1" limited="true" range="-2.5307 1.0472" actuatorfrclimited="true" actuatorfrcrange="-40 40" damping="2.5" frictionloss="0.25"/>
+                    <inertial pos="-0.0076264 0.036752 0.0015397" mass="1.35" fullinertia="0.0045995 0.002472 0.0037317 -0.00047302 0.0000159 -0.00007646"/>
+                    <geom class="visual" pos="0 0 0" material="arm_right_Link_4_mat" mesh="Gento_Skye_meshes_Arm_R4_Link" />
+                    <geom class="collision" pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" mesh="Gento_Skye_meshes_Arm_R4_Link" />
+                    <body name="arm right_Link_5" pos="-0.018 0.314 0" quat="0.7071055 -0.7071081 0 0">
+                      <joint name="Arm_R5_Joint" type="hinge" axis="0 0 1" limited="true" range="-3.1067 3.1067" actuatorfrclimited="true" actuatorfrcrange="-40 40" damping="1.5" frictionloss="0.15"/>
+                      <inertial pos="-0.0000009 0.0008902 -0.11388" mass="1.45" fullinertia="0.00440269 0.00378792 0.00200876 0 -0.00000012 0.00013132"/>
+                      <geom class="visual" pos="0 0 0" material="arm_right_Link_5_mat" mesh="Gento_Skye_meshes_Arm_R5_Link" />
+                      <geom class="collision" pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" mesh="Gento_Skye_meshes_Arm_R5_Link" />
+                      <body name="arm right_Link_6" pos="0 0 0" quat="0.7071055 0.7071081 0 0">
+                        <joint name="Arm_R6_Joint" type="hinge" axis="0 0 1" limited="true" range="-1.0472 1.0472" actuatorfrclimited="true" actuatorfrcrange="-40 40" damping="1.8" frictionloss="0.12"/>
+                        <inertial pos="-0.0040618 0.0000001 0" mass="1.1" diaginertia="0.0008362 0.00077682 0.00072561"/>
+                        <geom class="visual" pos="0 0 0" material="arm_right_Link_6_mat" mesh="Gento_Skye_meshes_Arm_R6_Link" />
+                        <geom class="collision" pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" mesh="Gento_Skye_meshes_Arm_R6_Link" />
+                        <body name="arm right_Link_7" pos="0 0 0" quat="0.4999982 0.5 0.5000018 0.5">
+                          <joint name="Arm_R7_Joint" type="hinge" axis="0 0 1" limited="true" range="-1.5708 1.5708" actuatorfrclimited="true" actuatorfrcrange="-40 40" damping="2.5" frictionloss="0.12"/>
+                          <inertial pos="0.037261 -0.0000224 0.0051669" mass="0.34882" fullinertia="0.00047214 0.00090209 0.00066079 -0.0000007045 0.000063325 0.0000000693"/>
+                          <geom class="visual" pos="0 0 0" material="arm_right_Link_7_mat" mesh="Gento_Skye_meshes_Arm_R7_Link" />
+                          <geom class="collision" pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" mesh="Gento_Skye_meshes_Arm_R7_Link" />
+                          <body name="flange_R" pos="0.088 0 0" quat="0 0.7071068 0 0.7071068">
+                            <body name="right_gripper_mount" quat="0.7071068 0 0 -0.7071068">
+                              <body name="right_gripper_base">
+                                <inertial pos="-0.000142 0.005641 0.0488811" mass="0.4064271" fullinertia="0.0002976 0.0004831 0.0004721 -0.0000024 0.0000011 -0.0000721"/>
+                                <geom group="2" type="mesh" contype="0" conaffinity="0" material="gripper_base_mat" mesh="right_gripper_base_mesh"/>
+                                <geom group="3" type="mesh" contype="1" conaffinity="1" condim="4" friction="0.8 0.05 0.01" mesh="right_gripper_base_mesh"/>
+                                <camera name="right_wrist_camera" pos="0.01 0.01 0.115" xyaxes="-1 0 0 0 0.7 0.866" fovy="105"/>
+                                <body name="right_gripper_left_finger" pos="0.105 -0.01 0.0916374" quat="0.0061005 0.0025269 -0.3826751 -0.38">
+                                  <joint name="right_gripper_left_finger_joint" type="slide" axis="1 0 0" range="0 0.05" damping="8" armature="0.01" frictionloss="0.2"/>
+                                  <inertial pos="-0.0166753 -0.0028108 0.0127051" mass="0.031395" fullinertia="0.0000116 0.0000048 0.0000102 -0.0000013 0 0"/>
+                                  <geom group="2" type="mesh" contype="0" conaffinity="0" material="gripper_finger_mat" mesh="right_gripper_left_finger_mesh"/>
+                                  <geom group="3" type="mesh" contype="1" conaffinity="1" condim="4" friction="0.8 0.05 0.01" mesh="right_gripper_left_finger_mesh"/>
+                                </body>
+                                <body name="right_gripper_right_finger" pos="-0.05 -0.002 0.1105" quat="0.3826751 0.37 0.0061006 0.0025269">
+                                  <joint name="right_gripper_right_finger_joint" type="slide" axis="1 0 0" range="0 0.05" damping="8" armature="0.01" frictionloss="0.2"/>
+                                  <inertial pos="0.0089293 -0.0028108 0.0127051" mass="0.031395" fullinertia="0.0000116 0.0000048 0.0000102 -0.0000013 0 0"/>
+                                  <geom group="2" type="mesh" contype="0" conaffinity="0" material="gripper_finger_mat" mesh="right_gripper_right_finger_mesh"/>
+                                  <geom group="3" type="mesh" contype="1" conaffinity="1" condim="4" friction="0.8 0.05 0.01" mesh="right_gripper_right_finger_mesh"/>
+                                </body>
+                                <body name="right_tool" quat="0.5 -0.5 -0.5 -0.5">
+                                  <site name="right_tool_site" pos="0.16270998 0.00079502 -0.00295853" size="0.005"/>
+                                </body>
+                              </body>
+                            </body>
+                          </body>
+                        </body>
+                      </body>
+                    </body>
+                  </body>
+                </body>
+              </body>
+            </body>
+            <body name="arm left_Link_1" pos="0 0.2305 0.4335" quat="0.7071055 -0.7071081 0 0">
+              <joint name="Arm_L1_Joint" type="hinge" axis="0 0 1" limited="true" range="-3.1067 3.1067" actuatorfrclimited="true" actuatorfrcrange="-45 45" damping="3" frictionloss="0.3"/>
+              <inertial pos="0.0000012 -0.0016087 -0.0272546" mass="2.25" fullinertia="0.00528015 0.00611211 0.00611486 -0.00000011 0 -0.00009865"/>
+              <geom class="visual" pos="0 0 0" material="arm_left_Link_1_mat" mesh="Gento_Skye_meshes_Arm_L1_Link" />
+              <geom class="collision" pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" mesh="Gento_Skye_meshes_Arm_L1_Link" />
+              <body name="arm left_Link_2" pos="0 0 0" quat="0.7071055 0.7071081 0 0">
+                <joint name="Arm_L2_Joint" type="hinge" axis="0 0 1" limited="true" range="-2.0944 2.0944" actuatorfrclimited="true" actuatorfrcrange="-45 45" damping="3" frictionloss="0.3"/>
+                <inertial pos="0.0000013 0.0469559 -0.001486" mass="1.85" fullinertia="0.00878723 0.00386948 0.0073004 -0.00000007 0.0000001 0.00012909"/>
+                <geom class="visual" pos="0 0 0" material="arm_left_Link_2_mat" mesh="Gento_Skye_meshes_Arm_L2_Link" />
+                <geom class="collision" pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" mesh="Gento_Skye_meshes_Arm_L2_Link" />
+                <body name="arm left_Link_3" pos="0 0.287 0" quat="0.7071055 -0.7071081 0 0">
+                  <joint name="Arm_L3_Joint" type="hinge" axis="0 0 1" limited="true" range="-3.1067 3.1067" actuatorfrclimited="true" actuatorfrcrange="-40 40" damping="2.5" frictionloss="0.25"/>
+                  <inertial pos="0.0058492 0.0009041 -0.05684" mass="1.75" fullinertia="0.00579666 0.00627241 0.00182175 0.00001918 0.00066746 0.00008977"/>
+                  <geom class="visual" pos="0 0 0" material="arm_left_Link_3_mat" mesh="Gento_Skye_meshes_Arm_L3_Link" />
+                  <geom class="collision" pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" mesh="Gento_Skye_meshes_Arm_L3_Link" />
+                  <body name="arm left_Link_4" pos="0.018 0 0" quat="0.7071055 0.7071081 0 0">
+                    <joint name="Arm_L4_Joint" type="hinge" axis="0 0 1" limited="true" range="-2.5307 1.0472" actuatorfrclimited="true" actuatorfrcrange="-40 40" damping="2.5" frictionloss="0.25"/>
+                    <inertial pos="-0.0076264 0.036752 0.0015397" mass="1.35" fullinertia="0.0049951 0.00247199 0.00373168 -0.00047302 0.0000159 -0.00007646"/>
+                    <geom class="visual" pos="0 0 0" material="arm_left_Link_4_mat" mesh="Gento_Skye_meshes_Arm_L4_Link" />
+                    <geom class="collision" pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" mesh="Gento_Skye_meshes_Arm_L4_Link" />
+                    <body name="arm left_Link_5" pos="-0.018 0.314 0" quat="0.7071068 -0.7071068 0 0">
+                      <joint name="Arm_L5_Joint" type="hinge" axis="0 0 1" limited="true" range="-3.1067 3.1067" actuatorfrclimited="true" actuatorfrcrange="-40 40" damping="1.5" frictionloss="0.15"/>
+                      <inertial pos="0 -0.0008891 -0.1138778" mass="1.45" fullinertia="0.00440266 0.00378789 0.00200877 0.00000006 -0.00000012 -0.00013134"/>
+                      <geom class="visual" pos="0 0 0" material="arm_left_Link_5_mat" mesh="Gento_Skye_meshes_Arm_L5_Link" />
+                      <geom class="collision" pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" mesh="Gento_Skye_meshes_Arm_L5_Link" />
+                      <body name="arm left_Link_6" pos="0 0 0" quat="0.7071055 0.7071081 0 0">
+                        <joint name="Arm_L6_Joint" type="hinge" axis="0 0 1" limited="true" range="-1.0472 1.0472" actuatorfrclimited="true" actuatorfrcrange="-40 40" damping="1.8" frictionloss="0.12"/>
+                        <inertial pos="-0.0040618 0 0" mass="1.1" diaginertia="0.0008362 0.00077682 0.00072561"/>
+                        <geom class="visual" pos="0 0 0" material="arm_left_Link_6_mat" mesh="Gento_Skye_meshes_Arm_L6_Link" />
+                        <geom class="collision" pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" mesh="Gento_Skye_meshes_Arm_L6_Link" />
+                        <body name="arm left_Link_7" pos="0 0 0" quat="0.4999982 0.5 0.5000018 0.5">
+                          <joint name="Arm_L7_Joint" type="hinge" axis="0 0 1" limited="true" range="-1.5708 1.5708" actuatorfrclimited="true" actuatorfrcrange="-40 40" damping="2.5" frictionloss="0.12"/>
+                          <inertial pos="0.037174 0.0000267 0.0052611" mass="0.34794" fullinertia="0.00046781 0.00062816 0.00039057 -0.0000000399 0.00003166 -0.0000000183"/>
+                          <geom class="visual" pos="0 0 0" material="arm_left_Link_7_mat" mesh="Gento_Skye_meshes_Arm_L7_Link" />
+                          <geom class="collision" pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" mesh="Gento_Skye_meshes_Arm_L7_Link" />
+                          <body name="flange_L" pos="0.088 0 0" quat="0 0.7071068 0 0.7071068">
+                            <body name="left_gripper_mount" quat="0.7071068 0 0 -0.7071068">
+                              <body name="left_gripper_base">
+                                <inertial pos="-0.000142 0.005641 0.0488811" mass="0.4064271" fullinertia="0.0002976 0.0004831 0.0004721 -0.0000024 0.0000011 -0.0000721"/>
+                                <geom group="2" type="mesh" contype="0" conaffinity="0" material="gripper_base_mat" mesh="left_gripper_base_mesh"/>
+                                <geom group="3" type="mesh" contype="1" conaffinity="1" condim="4" friction="0.8 0.05 0.01" mesh="left_gripper_base_mesh"/>
+                                <camera name="left_wrist_camera" pos="0.01 0.01 0.115" xyaxes="-1 0 0 0 0.7 0.866" fovy="105"/>
+                                <body name="left_gripper_left_finger" pos="0.105 -0.01 0.0916374" quat="0.0061005 0.0025269 -0.3826751 -0.38">
+                                  <joint name="left_gripper_left_finger_joint" type="slide" axis="1 0 0" range="0 0.05" damping="8" armature="0.01" frictionloss="0.2"/>
+                                  <inertial pos="-0.0166753 -0.0028108 0.0127051" mass="0.031395" fullinertia="0.0000116 0.0000048 0.0000102 -0.0000013 0 0"/>
+                                  <geom group="2" type="mesh" contype="0" conaffinity="0" material="gripper_finger_mat" mesh="left_gripper_left_finger_mesh"/>
+                                  <geom group="3" type="mesh" contype="1" conaffinity="1" condim="4" friction="0.8 0.05 0.01" mesh="left_gripper_left_finger_mesh"/>
+                                </body>
+                                <body name="left_gripper_right_finger" pos="-0.05 -0.002 0.1105" quat="0.3826751 0.37 0.0061006 0.0025269">
+                                  <joint name="left_gripper_right_finger_joint" type="slide" axis="1 0 0" range="0 0.05" damping="8" armature="0.01" frictionloss="0.2"/>
+                                  <inertial pos="0.0089293 -0.0028108 0.0127051" mass="0.031395" fullinertia="0.0000116 0.0000048 0.0000102 -0.0000013 0 0"/>
+                                  <geom group="2" type="mesh" contype="0" conaffinity="0" material="gripper_finger_mat" mesh="left_gripper_right_finger_mesh"/>
+                                  <geom group="3" type="mesh" contype="1" conaffinity="1" condim="4" friction="0.8 0.05 0.01" mesh="left_gripper_right_finger_mesh"/>
+                                </body>
+                                <body name="left_tool" quat="0.5 -0.5 -0.5 -0.5">
+                                  <site name="left_tool_site" pos="0.16270998 0.00079502 -0.00295853" size="0.005"/>
+                                </body>
+                              </body>
+                            </body>
+                          </body>
+                        </body>
+                      </body>
+                    </body>
+                  </body>
+                </body>
+              </body>
+            </body>
+            <body name="head_Link_1" pos="-0.0135 0 0.648">
+              <joint name="head_joint_1" type="hinge" axis="0 0 1" limited="true" range="-1.5708 1.5708" actuatorfrclimited="true" actuatorfrcrange="-18 18" damping="3" frictionloss="0.3"/>
+              <inertial pos="-0.0003618 -0.012522 -0.017538" mass="1.3932" fullinertia="0.0032973 0.003207 0.0016203 0.0000066693 -0.000049573 0.00030602"/>
+              <geom class="visual" pos="0 0 0" material="head_Link_1_mat" mesh="Gento_Skye_meshes_head_Link_1" />
+              <geom class="collision" pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" mesh="Gento_Skye_meshes_head_Link_1" />
+              <body name="head_Link_2" pos="0 0 0" quat="0.7071055 0.7071081 0 0">
+                <joint name="head_joint_2" type="hinge" axis="0 0 1" limited="true" range="-0.6109 0.4363" actuatorfrclimited="true" actuatorfrcrange="-18 18" damping="3" frictionloss="0.3"/>
+                <inertial pos="0.05658 0.029152 -0.018873" mass="1.0577" fullinertia="0.00480604 0.00414727 0.0053477 0.0009986 0.00088202 0.00057025"/>
+                <geom class="visual" pos="0 0 0" material="head_Link_2_mat" mesh="Gento_Skye_meshes_head_Link_2" />
+                <geom class="collision" pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" mesh="Gento_Skye_meshes_head_Link_2" />
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+  <actuator>
+    <position name="left_front wheel_joint_1_servo" joint="left_front wheel_joint_1" kp="100" kv="20" ctrllimited="true" ctrlrange="-2.97 2.97" forcelimited="true" forcerange="-194 194" />
+    <position name="left_front wheel_joint_2_servo" joint="left_front wheel_joint_2" kp="100" kv="20" ctrllimited="true" ctrlrange="-2.97 2.97" forcelimited="true" forcerange="-194 194" />
+    <position name="right_front wheel_joint_1_servo" joint="right_front wheel_joint_1" kp="100" kv="20" ctrllimited="true" ctrlrange="-2.97 2.97" forcelimited="true" forcerange="-194 194" />
+    <position name="right_front wheel_joint_2_servo" joint="right_front wheel_joint_2" kp="100" kv="20" ctrllimited="true" ctrlrange="-2.97 2.97" forcelimited="true" forcerange="-194 194" />
+    <position name="left_back wheel_joint_1_servo" joint="left_back wheel_joint_1" kp="100" kv="20" ctrllimited="true" ctrlrange="-2.97 2.97" forcelimited="true" forcerange="-194 194" />
+    <position name="left_back wheel_joint_2_servo" joint="left_back wheel_joint_2" kp="100" kv="20" ctrllimited="true" ctrlrange="-2.97 2.97" forcelimited="true" forcerange="-194 194" />
+    <position name="right_back wheel_joint_1_servo" joint="right_back wheel_joint_1" kp="100" kv="20" ctrllimited="true" ctrlrange="-2.97 2.97" forcelimited="true" forcerange="-194 194" />
+    <position name="right_back wheel_joint_2_servo" joint="right_back wheel_joint_2" kp="100" kv="20" ctrllimited="true" ctrlrange="-2.97 2.97" forcelimited="true" forcerange="-194 194" />
+    <position name="waist_joint_1_prismatic_servo" joint="waist_joint_1_prismatic" kp="12000" kv="1200" ctrllimited="true" ctrlrange="0 0.86" forcelimited="true" forcerange="-3000 3000" />
+    <position name="waist_joint_2_servo" joint="waist_joint_2" kp="5000" kv="700" ctrllimited="true" ctrlrange="-1.5708 0" forcelimited="true" forcerange="-194 194" />
+    <position name="waist_joint_3_servo" joint="waist_joint_3" kp="2200" kv="320" ctrllimited="true" ctrlrange="-0.4363 0.4363" forcelimited="true" forcerange="-194 194" />
+    <position name="Arm_R1_Joint_servo" joint="Arm_R1_Joint" kp="450" kv="60" ctrllimited="true" ctrlrange="-3.1067 3.1067" forcelimited="true" forcerange="-45 45" />
+    <position name="Arm_R2_Joint_servo" joint="Arm_R2_Joint" kp="450" kv="60" ctrllimited="true" ctrlrange="-2.0944 2.0944" forcelimited="true" forcerange="-45 45" />
+    <position name="Arm_R3_Joint_servo" joint="Arm_R3_Joint" kp="400" kv="55" ctrllimited="true" ctrlrange="-3.1067 3.1067" forcelimited="true" forcerange="-40 40" />
+    <position name="Arm_R4_Joint_servo" joint="Arm_R4_Joint" kp="450" kv="55" ctrllimited="true" ctrlrange="-2.5307 1.0472" forcelimited="true" forcerange="-40 40" />
+    <position name="Arm_R5_Joint_servo" joint="Arm_R5_Joint" kp="480" kv="38" ctrllimited="true" ctrlrange="-3.1067 3.1067" forcelimited="true" forcerange="-40 40" />
+    <position name="Arm_R6_Joint_servo" joint="Arm_R6_Joint" kp="270" kv="28" ctrllimited="true" ctrlrange="-1.0472 1.0472" forcelimited="true" forcerange="-40 40" />
+    <position name="Arm_R7_Joint_servo" joint="Arm_R7_Joint" kp="245" kv="30" ctrllimited="true" ctrlrange="-1.5708 1.5708" forcelimited="true" forcerange="-40 40" />
+    <position name="Arm_L1_Joint_servo" joint="Arm_L1_Joint" kp="450" kv="60" ctrllimited="true" ctrlrange="-3.1067 3.1067" forcelimited="true" forcerange="-45 45" />
+    <position name="Arm_L2_Joint_servo" joint="Arm_L2_Joint" kp="450" kv="60" ctrllimited="true" ctrlrange="-2.0944 2.0944" forcelimited="true" forcerange="-45 45" />
+    <position name="Arm_L3_Joint_servo" joint="Arm_L3_Joint" kp="400" kv="55" ctrllimited="true" ctrlrange="-3.1067 3.1067" forcelimited="true" forcerange="-40 40" />
+    <position name="Arm_L4_Joint_servo" joint="Arm_L4_Joint" kp="450" kv="55" ctrllimited="true" ctrlrange="-2.5307 1.0472" forcelimited="true" forcerange="-40 40" />
+    <position name="Arm_L5_Joint_servo" joint="Arm_L5_Joint" kp="480" kv="38" ctrllimited="true" ctrlrange="-3.1067 3.1067" forcelimited="true" forcerange="-40 40" />
+    <position name="Arm_L6_Joint_servo" joint="Arm_L6_Joint" kp="270" kv="28" ctrllimited="true" ctrlrange="-1.0472 1.0472" forcelimited="true" forcerange="-40 40" />
+    <position name="Arm_L7_Joint_servo" joint="Arm_L7_Joint" kp="245" kv="30" ctrllimited="true" ctrlrange="-1.5708 1.5708" forcelimited="true" forcerange="-40 40" />
+    <position name="head_joint_1_servo" joint="head_joint_1" kp="250" kv="50" ctrllimited="true" ctrlrange="-1.5708 1.5708" forcelimited="true" forcerange="-18 18" />
+    <position name="head_joint_2_servo" joint="head_joint_2" kp="250" kv="50" ctrllimited="true" ctrlrange="-0.6109 0.4363" forcelimited="true" forcerange="-18 18" />
+    <position name="left_gripper_servo" joint="left_gripper_left_finger_joint" kp="100" kv="10" ctrlrange="0 0.05" forcerange="-30 30"/>
+    <position name="right_gripper_servo" joint="right_gripper_left_finger_joint" kp="100" kv="10" ctrlrange="0 0.05" forcerange="-30 30"/>
+  </actuator>
+</mujoco>

@@ -1,0 +1,386 @@
+#!/usr/bin/env python3
+"""Convert a raw dual-gripper episode into Marvin replay trajectories.
+
+The raw episode contains gripper-base pose CSV files in the AprilGrid frame and
+clamp-angle JSON files.  This module synchronizes both hands at 50 Hz, maps
+AprilGrid axes to the Marvin robot-base axes, and writes the
+``50hz/session_ee_*`` layout consumed by replay.py.
+The initial dual-hand line is automatically compensated into the robot YZ
+plane before the relative trajectories are written.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+
+import numpy as np
+from scipy.spatial.transform import Rotation, Slerp
+from utils.trajectory_plane_compensation import (
+    apply_plane_compensation_to_pose_trajectories,
+    compute_plane_compensation,
+)
+
+
+SAMPLE_PERIOD_SEC = 0.02
+CONVERSION_FORMAT_VERSION = 3
+T_UGRIPPER_BASE_TCP = np.array(
+    [
+        [1.0, 0.0, 0.0, 0.0],
+        [0.0, 1.0, 0.0, 0.0],
+        [0.0, 0.0, 1.0, 0.129708200693],
+        [0.0, 0.0, 0.0, 1.0],
+    ],
+    dtype=float,
+)
+R_APRILGRID_TO_ROBOT = np.array(
+    [[0.0, 0.0, 1.0], [-1.0, 0.0, 0.0], [0.0, -1.0, 0.0]], dtype=float
+)
+R_SLAM_WORLD_TO_ROBOT = np.array(
+    [[0.0, -1.0, 0.0], [1.0, 0.0, 0.0], [0.0, 0.0, 1.0]], dtype=float
+)
+
+
+def _load_pose(path: Path) -> tuple[np.ndarray, np.ndarray, Rotation]:
+    data = np.genfromtxt(path, delimiter=",", names=True, dtype=float)
+    time_sec = np.asarray(data["Timestamp_us"], dtype=float) * 1e-6
+    position = np.column_stack([data["X"], data["Y"], data["Z"]])
+    quaternion = np.column_stack(
+        [data["Quat_X"], data["Quat_Y"], data["Quat_Z"], data["Quat_W"]]
+    )
+    return time_sec, position, Rotation.from_quat(quaternion)
+
+
+def _interpolate_pose(
+    source_time: np.ndarray,
+    source_position: np.ndarray,
+    source_rotation: Rotation,
+    target_time: np.ndarray,
+) -> tuple[np.ndarray, Rotation]:
+    position = np.column_stack(
+        [np.interp(target_time, source_time, source_position[:, axis]) for axis in range(3)]
+    )
+    return position, Slerp(source_time, source_rotation)(target_time)
+
+
+def _load_gripper(path: Path, target_time: np.ndarray) -> np.ndarray:
+    samples = np.asarray(json.loads(path.read_text(encoding="utf-8")), dtype=float)
+    time_sec = samples[:, 0] * 1e-9
+    angle_rad = samples[:, 1]
+    interpolated = np.interp(target_time, time_sec, angle_rad)
+    return np.clip(-interpolated / 0.36 * 80.0, 0.0, 80.0)
+
+
+def _relative_robot_pose(
+    position: np.ndarray, rotation: Rotation, source_to_robot: np.ndarray
+) -> np.ndarray:
+    initial_position = position[0]
+    initial_rotation_inverse = rotation[0].as_matrix().T
+    relative_position = (source_to_robot @ (position - initial_position).T).T
+    relative_rotation = rotation.as_matrix() @ initial_rotation_inverse
+    relative_rotation = (
+        source_to_robot[None, :, :]
+        @ relative_rotation
+        @ source_to_robot.T[None, :, :]
+    )
+    quaternion = Rotation.from_matrix(relative_rotation).as_quat()
+    relative_position[0] = 0.0
+    quaternion[0] = np.array([0.0, 0.0, 0.0, 1.0])
+    return np.column_stack([relative_position, quaternion])
+
+
+def _base_pose_to_tcp_pose(
+    base_position: np.ndarray,
+    base_rotation: Rotation,
+    T_base_tcp: np.ndarray,
+) -> tuple[np.ndarray, Rotation]:
+    """Apply ``T_source_tcp = T_source_base @ T_base_tcp`` to pose samples."""
+    tcp_offset_in_base = T_base_tcp[:3, 3]
+    tcp_position = base_position + base_rotation.apply(
+        np.broadcast_to(tcp_offset_in_base, base_position.shape)
+    )
+    tcp_rotation = Rotation.from_matrix(
+        base_rotation.as_matrix() @ T_base_tcp[:3, :3]
+    )
+    return tcp_position, tcp_rotation
+
+
+def _write_trajectory(path: Path, relative_time: np.ndarray, pose: np.ndarray) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    np.savetxt(path, np.column_stack([relative_time, pose]), fmt="%.9f")
+
+
+def _write_gripper(path: Path, relative_time: np.ndarray, gripper: np.ndarray) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    np.savetxt(path, np.column_stack([relative_time, gripper]), fmt="%.9f")
+
+
+def output_path_for_episode(episode: Path, output_root: Path, source_frame: str) -> Path:
+    frame_name = "aprilgrid" if source_frame == "aprilgrid" else "slam_world"
+    return output_root / episode.name / f"{frame_name}_base_to_robot"
+
+
+def _conversion_cache_is_current(
+    result_root: Path, T_base_tcp: np.ndarray
+) -> bool:
+    """Return whether cached trajectories use the current base-to-TCP transform."""
+    metadata_path = result_root / "conversion_metadata.json"
+    if not metadata_path.is_file() or not (result_root / "50hz").is_dir():
+        return False
+    try:
+        metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+        vector = np.asarray(
+            metadata.get("initial_control_point_vector_robot_m"), dtype=float
+        )
+        cached_T_base_tcp = np.asarray(metadata.get("T_base_tcp"), dtype=float)
+    except (OSError, TypeError, ValueError):
+        return False
+    return bool(
+        metadata.get("conversion_format_version") == CONVERSION_FORMAT_VERSION
+        and metadata.get("source_pose") == "T_source_gripper_base"
+        and metadata.get("control_point") == "tcp"
+        and cached_T_base_tcp.shape == (4, 4)
+        and np.allclose(cached_T_base_tcp, T_base_tcp, atol=1e-12)
+        and "tcp_to_base_tz_m" not in metadata
+        and isinstance(metadata.get("plane_compensation"), dict)
+        and metadata["plane_compensation"].get("enabled") is True
+        and vector.shape == (3,)
+        and np.all(np.isfinite(vector))
+    )
+
+
+def convert_episode(
+    episode: Path,
+    output_root: Path,
+    *,
+    source_frame: str = "aprilgrid",
+    overwrite: bool = False,
+) -> Path:
+    """Convert one raw episode and return its replay trajectory directory.
+
+    The raw CSV poses describe the UGripper base. They are transformed to the
+    calibrated UGripper TCP before relative motion is generated. Marvin's
+    ``*_tool_site`` frames represent the midpoint of its two finger tips. The
+    generated dual-hand motion is always rotated so its initial hand-to-hand
+    line lies in the robot YZ plane.
+    """
+    episode = episode.expanduser().resolve()
+    output_root = output_root.expanduser().resolve()
+    if source_frame not in ("aprilgrid", "slam_world"):
+        raise ValueError(f"unsupported source frame: {source_frame!r}")
+    pose_dir = episode / "pose_data"
+    pose_paths = {side: pose_dir / f"pose_data_{side}.csv" for side in ("left", "right")}
+    gripper_paths = {
+        side: episode / "view_files" / f"sensor_{side}_clamp_angle.json"
+        for side in ("left", "right")
+    }
+    for path in [*pose_paths.values(), *gripper_paths.values()]:
+        if not path.is_file():
+            raise FileNotFoundError(path)
+
+    result_root = output_path_for_episode(episode, output_root, source_frame)
+    metadata_path = result_root / "conversion_metadata.json"
+    if not overwrite and _conversion_cache_is_current(
+        result_root, T_UGRIPPER_BASE_TCP
+    ):
+        return result_root
+
+    source_to_robot = (
+        R_SLAM_WORLD_TO_ROBOT if source_frame == "slam_world" else R_APRILGRID_TO_ROBOT
+    )
+    base_poses = {side: _load_pose(path) for side, path in pose_paths.items()}
+
+    start_time = max(value[0][0] for value in base_poses.values())
+    stop_time = min(value[0][-1] for value in base_poses.values())
+    target_time = np.arange(start_time, stop_time, SAMPLE_PERIOD_SEC)
+    if target_time.size < 2:
+        raise ValueError("the synchronized left/right time range is too short")
+    relative_time = target_time - target_time[0]
+
+    interpolated: dict[str, tuple[np.ndarray, Rotation]] = {}
+    grippers: dict[str, np.ndarray] = {}
+    for side in ("left", "right"):
+        source_time, source_position, source_rotation = base_poses[side]
+        base_position, base_rotation = _interpolate_pose(
+            source_time, source_position, source_rotation, target_time
+        )
+        interpolated[side] = _base_pose_to_tcp_pose(
+            base_position, base_rotation, T_UGRIPPER_BASE_TCP
+        )
+        grippers[side] = _load_gripper(gripper_paths[side], target_time)
+
+    initial_positions = {
+        side: interpolated[side][0][0].copy() for side in ("left", "right")
+    }
+    initial_vector_robot = (
+        source_to_robot @ (initial_positions["left"] - initial_positions["right"])
+    )
+    plane_compensation = compute_plane_compensation(
+        initial_vector_robot,
+        plane_normal=np.array([1.0, 0.0, 0.0]),
+        max_angle_deg=90.0,
+    )
+    compensated_vector_robot = plane_compensation.corrected_vector
+
+    # The generated trajectories are relative to each hand's first frame.
+    # Apply one common rotation to both trajectories before writing them so
+    # that every replay path uses the same AprilGrid-to-robot plane correction.
+    relative_poses = {}
+    for side in ("left", "right"):
+        position, rotation = interpolated[side]
+        relative_poses[side] = np.column_stack(
+            [
+                relative_time,
+                _relative_robot_pose(position, rotation, source_to_robot),
+            ]
+        )
+    relative_poses["left"], relative_poses["right"] = (
+        apply_plane_compensation_to_pose_trajectories(
+            relative_poses["left"],
+            relative_poses["right"],
+            plane_compensation,
+            trajectories_are_relative=True,
+        )
+    )
+
+    stats: dict[str, object] = {}
+    for side in ("left", "right"):
+        source_time, _, _ = base_poses[side]
+        pose = relative_poses[side][:, 1:]
+        session_suffix = episode.name.rsplit("_", maxsplit=1)[-1]
+        session_root = result_root / "50hz" / f"session_ee_{session_suffix}"
+        _write_trajectory(
+            session_root / side / "Merged_Trajectory" / "merged_trajectory.txt",
+            relative_time,
+            pose,
+        )
+        _write_gripper(
+            session_root / side / "Clamp_Data" / "clamp_data_tum.txt",
+            relative_time,
+            grippers[side],
+        )
+        stats[side] = {
+            "source_initial_index": int(np.searchsorted(source_time, start_time)),
+            "first_output": pose[0].tolist() + [float(grippers[side][0])],
+            "position_min_robot_m": pose[:, :3].min(axis=0).tolist(),
+            "position_max_robot_m": pose[:, :3].max(axis=0).tolist(),
+            "quaternion_norm_min": float(np.linalg.norm(pose[:, 3:7], axis=1).min()),
+            "quaternion_norm_max": float(np.linalg.norm(pose[:, 3:7], axis=1).max()),
+            "gripper_output_min": float(grippers[side].min()),
+            "gripper_output_max": float(grippers[side].max()),
+        }
+
+    metadata = {
+        "conversion_format_version": CONVERSION_FORMAT_VERSION,
+        "source": str(episode),
+        "source_pose": "T_source_gripper_base",
+        "control_point": "tcp",
+        "T_base_tcp": T_UGRIPPER_BASE_TCP.tolist(),
+        "control_point_formula": "T_source_tcp = T_source_base @ T_base_tcp",
+        "initial_control_point_vector_robot_m": compensated_vector_robot.tolist(),
+        "initial_control_point_vector_original_robot_m": initial_vector_robot.tolist(),
+        "initial_control_point_distance_m": float(np.linalg.norm(compensated_vector_robot)),
+        # Compatibility with the current replay helper; this is the distance
+        # of the actual control points, not necessarily a physical TCP distance.
+        "initial_tcp_distance_m": float(np.linalg.norm(compensated_vector_robot)),
+        "plane_compensation": {
+            "enabled": True,
+            "plane": "robot_yz",
+            "plane_normal": [1.0, 0.0, 0.0],
+            "measured_angle_deg": plane_compensation.measured_angle_deg,
+            "applied_angle_deg": plane_compensation.applied_angle_deg,
+            "limited": plane_compensation.limited,
+            "original_vector_m": plane_compensation.original_vector.tolist(),
+            "corrected_vector_m": plane_compensation.corrected_vector.tolist(),
+            "rotation": plane_compensation.rotation.tolist(),
+        },
+        "sample_rate_hz": 1.0 / SAMPLE_PERIOD_SEC,
+        "frame_count": int(target_time.size),
+        "duration_sec": float(relative_time[-1]),
+        "source_frame": source_frame,
+        "R_source_to_robot": source_to_robot.tolist(),
+        "det_R_source_to_robot": float(np.linalg.det(source_to_robot)),
+        "axis_mapping": (
+            {"robot_x": "-slam_world_y", "robot_y": "slam_world_x", "robot_z": "slam_world_z"}
+            if source_frame == "slam_world"
+            else {"robot_x": "grid_z", "robot_y": "-grid_x", "robot_z": "-grid_y"}
+        ),
+        "translation_formula": "dp_robot = R_source_to_robot @ (p_now - p_initial)",
+        "rotation_formula": "dR_robot = R_source_to_robot @ (R_now @ R_initial.T) @ R_source_to_robot.T",
+        "gripper_mapping": "clip(-angle_rad / 0.36 * 80, 0, 80)",
+        "stats": stats,
+    }
+    result_root.mkdir(parents=True, exist_ok=True)
+    metadata_path.write_text(json.dumps(metadata, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    return result_root
+
+
+def resolve_trajectory_input(
+    input_path: Path,
+    *,
+    output_root: Path | None = None,
+    source_frame: str = "aprilgrid",
+) -> Path:
+    """Return a replay directory, converting a raw episode when necessary."""
+    input_path = input_path.expanduser().resolve()
+    if (input_path / "50hz").is_dir():
+        # Do not silently replay a converted directory produced before the
+        # mandatory plane-compensation step.  If its source episode is still
+        # available, regenerate it in place using the current converter.
+        if _conversion_cache_is_current(input_path, T_UGRIPPER_BASE_TCP):
+            return input_path
+        metadata_path = input_path / "conversion_metadata.json"
+        try:
+            metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+            source = Path(str(metadata["source"])).expanduser()
+            cached_frame = str(metadata.get("source_frame", source_frame))
+        except (OSError, KeyError, TypeError, ValueError, json.JSONDecodeError):
+            source = None
+            cached_frame = source_frame
+        if source is not None and (source / "pose_data").is_dir():
+            return convert_episode(
+                source,
+                input_path.parents[1],
+                source_frame=cached_frame,
+                overwrite=True,
+            )
+        raise ValueError(
+            f"converted trajectory {input_path} lacks current mandatory "
+            "plane-compensation metadata; re-run conversion from the raw episode"
+        )
+    if not (input_path / "pose_data").is_dir():
+        raise FileNotFoundError(
+            f"{input_path} is neither a converted trajectory directory (missing 50hz/) "
+            "nor a raw episode directory (missing pose_data/)"
+        )
+    if output_root is None:
+        output_root = Path(__file__).resolve().parent / "converted_trajectories"
+    return convert_episode(
+        input_path,
+        output_root,
+        source_frame=source_frame,
+    )
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("episode", type=Path, help="raw episode root directory")
+    parser.add_argument(
+        "--output-root",
+        type=Path,
+        default=Path(__file__).resolve().parent / "converted_trajectories",
+    )
+    parser.add_argument("--source-frame", choices=("aprilgrid", "slam_world"), default="aprilgrid")
+    parser.add_argument("--overwrite", action="store_true")
+    args = parser.parse_args()
+    print(convert_episode(
+        args.episode,
+        args.output_root,
+        source_frame=args.source_frame,
+        overwrite=args.overwrite,
+    ))
+
+
+if __name__ == "__main__":
+    main()
